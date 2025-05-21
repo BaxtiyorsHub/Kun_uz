@@ -2,9 +2,14 @@ package dasturlash.uz.services;
 
 import dasturlash.uz.dto.CategoryDTO;
 import dasturlash.uz.entities.CategoryEntity;
+import dasturlash.uz.entities.RegionEntity;
 import dasturlash.uz.repository.CategoryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class CategoryService {
@@ -24,15 +29,34 @@ public class CategoryService {
     }
 
     public CategoryDTO getById(Integer id) {
-        return null;
+        CategoryEntity category = categoryRepository.findByIdAndVisibleIsTrue(id);
+        return category != null ? toDTO(category) : null;
     }
 
-    public CategoryDTO update(Integer id) {
-        return null;
+    public CategoryDTO update(CategoryDTO categoryDTO) {
+        CategoryEntity category = categoryRepository.findByIdAndVisibleIsTrue(categoryDTO.getId());
+        if (category == null) {
+            throw new EntityNotFoundException("Region not found or not visible with id: " + categoryDTO.getId());
+        }
+
+        if (categoryDTO.getNameUz() != null) category.setNameUz(categoryDTO.getNameUz());
+        if (categoryDTO.getNameRu() != null) category.setNameRu(categoryDTO.getNameRu());
+        if (categoryDTO.getNameEn() != null) category.setNameEn(categoryDTO.getNameEn());
+        if (categoryDTO.getKey() != null) category.setKey(categoryDTO.getKey());
+
+        categoryRepository.save(category);
+        return toDTO(category);
     }
 
     public Boolean delete(Integer id) {
-        return null;
+        CategoryEntity category = categoryRepository.findByIdAndVisibleIsTrue(id);
+        if (category == null) {
+            throw new EntityNotFoundException("Region not found or already deleted");
+        }
+
+        category.setVisible(false);
+        categoryRepository.save(category);
+        return true;
     }
 
     private CategoryDTO toDTO(CategoryEntity category) {
@@ -44,5 +68,11 @@ public class CategoryService {
         dto.setKey(category.getKey());
         dto.setCreatedDate(category.getCreatedDate());
         return dto;
+    }
+
+    public List<CategoryEntity> getListAll() {
+        List<CategoryEntity> allCategory = new LinkedList<>();
+        categoryRepository.findAll().forEach(allCategory::add);
+        return allCategory;
     }
 }

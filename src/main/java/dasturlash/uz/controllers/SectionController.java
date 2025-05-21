@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController("/section")
 public class SectionController {
 
@@ -21,6 +23,11 @@ public class SectionController {
     @GetMapping("/{id}")
     public ResponseEntity<SectionDTO> get(@PathVariable Integer id){
         return ResponseEntity.ok(sectionService.getById(id));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<SectionDTO>> getList() {
+        return ResponseEntity.ok(sectionService.getListAll());
     }
 
     @PutMapping("/{id}")

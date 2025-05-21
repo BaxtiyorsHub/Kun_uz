@@ -34,8 +34,8 @@ public class RegionService {
         return region != null ? toDTO(region) : null;
     }
 
-    public List<RegionEntity> getListAll(){
-        List<RegionEntity> allRegion =  new LinkedList<>();
+    public List<RegionEntity> getListAll() {
+        List<RegionEntity> allRegion = new LinkedList<>();
         regionRepository.findAll().forEach(allRegion::add);
         return allRegion;
     }
@@ -81,6 +81,14 @@ public class RegionService {
     }
 
     public List<RegionEntity> getListByLang(String lang) {
-        return null;
+        List<RegionEntity> list;
+        if (lang.equals("uz")) {
+            list = regionRepository.findAllByNameEnLikeIgnoreCase("%" + "lang" + "%");
+        } else if (lang.equals("ru")) {
+            list = regionRepository.findAllByNameRuLikeIgnoreCase("%" + "lang" + "%");
+        } else {
+            list = regionRepository.findAllByNameUzLikeIgnoreCase("%" + "lang" + "%");
+        }
+        return list;
     }
 }
