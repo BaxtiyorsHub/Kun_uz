@@ -1,7 +1,9 @@
 package dasturlash.uz.services;
 
 import dasturlash.uz.dto.SectionDTO;
+import dasturlash.uz.dto.SectionResponseDTO;
 import dasturlash.uz.entities.SectionEntity;
+import dasturlash.uz.enums.Lang;
 import dasturlash.uz.repository.SectionRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,11 @@ import java.util.List;
 
 @Service
 public class SectionService {
-    @Autowired
-    private SectionRepository sectionRepository;
+    private final SectionRepository sectionRepository;
+
+    public SectionService(SectionRepository sectionRepository) {
+        this.sectionRepository = sectionRepository;
+    }
 
     public SectionDTO create(SectionDTO sectionDTO) {
         SectionEntity section = new SectionEntity();
@@ -33,7 +38,7 @@ public class SectionService {
         return section != null ? toDTO(section) : null;
     }
 
-    public SectionDTO update(Integer id,SectionDTO sectionDTO) {
+    public SectionDTO update(Integer id, SectionDTO sectionDTO) {
         SectionEntity section = sectionRepository.findByIdAndVisibleIsTrue(id);
         if (section == null) {
             throw new EntityNotFoundException("Section not found or not visible with id: " + sectionDTO.getId());
@@ -90,6 +95,28 @@ public class SectionService {
         dto.setKey(entity.getKey());
         dto.setCreatedDate(entity.getCreatedDate());
 
+        return dto;
+    }
+
+    public List<SectionResponseDTO> getListLang(Lang lang) {
+        List<SectionEntity> sections = sectionRepository.findByVisibleIsTrue();
+
+        List<SectionResponseDTO> response = new LinkedList<>();
+
+        sections.forEach(s -> response.add(toDtoLang(lang, s)));
+        return response;
+    }
+
+    private SectionResponseDTO toDtoLang(Lang lang, SectionEntity s) {
+        SectionResponseDTO dto = new SectionResponseDTO();
+
+        dto.setId(s.getId());
+        dto.setKey(s.getKey());
+        switch (lang) {
+            case EN -> dto.setName(s.getNameEn());
+            case RU -> dto.setName(s.getNameRu());
+            default -> dto.setName(s.getNameUz());
+        }
         return dto;
     }
 }

@@ -12,8 +12,11 @@ import java.util.List;
 
 @Service
 public class ProfileService {
-    @Autowired
-    private ProfileRepository profileRepository;
+    private final ProfileRepository profileRepository;
+
+    public ProfileService(ProfileRepository profileRepository) {
+        this.profileRepository = profileRepository;
+    }
 
     public ProfileDTO create(ProfileDTO dto) {
         ProfileEntity profile = new ProfileEntity();

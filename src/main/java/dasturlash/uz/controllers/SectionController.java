@@ -1,8 +1,10 @@
 package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.SectionDTO;
+import dasturlash.uz.dto.SectionResponseDTO;
+import dasturlash.uz.enums.Lang;
 import dasturlash.uz.services.SectionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,12 +14,15 @@ import java.util.List;
 @RestController
 public class SectionController {
 
-    @Autowired
-    private SectionService sectionService;
+    private final SectionService sectionService;
 
-    @PostMapping("")
-    public ResponseEntity<SectionDTO> create(
-            @RequestBody SectionDTO sectionDTO) {
+    public SectionController(SectionService sectionService) {
+        this.sectionService = sectionService;
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<SectionDTO> create(@Valid
+                                             @RequestBody SectionDTO sectionDTO) {
         return ResponseEntity.ok(sectionService.create(sectionDTO));
     }
 
@@ -40,5 +45,10 @@ public class SectionController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Integer id) {
         return ResponseEntity.ok(sectionService.delete(id));
+    }
+
+    @GetMapping("/byLang")
+    public ResponseEntity<List<SectionResponseDTO>> getByLang(@RequestParam(defaultValue = "uz") Lang lang) {
+        return ResponseEntity.ok(sectionService.getListLang(lang));
     }
 }

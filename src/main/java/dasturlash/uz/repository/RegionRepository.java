@@ -20,4 +20,6 @@ public interface RegionRepository extends CrudRepository<RegionEntity, Integer> 
     List<RegionEntity> findAllByNameEnLikeIgnoreCase(String nameEn);
 
     Optional<RegionEntity> findByKeyAndOrderNumber(String key, Integer orderNumber);
+
+    List<RegionEntity> findByVisibleIsTrue();
 }

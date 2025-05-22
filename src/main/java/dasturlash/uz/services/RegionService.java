@@ -1,7 +1,9 @@
 package dasturlash.uz.services;
 
 import dasturlash.uz.dto.RegionDTO;
+import dasturlash.uz.dto.RegionResponseDTO;
 import dasturlash.uz.entities.RegionEntity;
+import dasturlash.uz.enums.Lang;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.RegionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,11 @@ import java.util.Optional;
 @Service
 public class RegionService {
 
-    @Autowired
-    private RegionRepository regionRepository;
+    private final RegionRepository regionRepository;
+
+    public RegionService(RegionRepository regionRepository) {
+        this.regionRepository = regionRepository;
+    }
 
     public RegionDTO create(RegionDTO regionDTO) {
         Optional<RegionEntity> entity = regionRepository.findByKeyAndOrderNumber(
@@ -73,7 +78,26 @@ public class RegionService {
         return true;
     }
 
+    public List<RegionResponseDTO> getListByLang(Lang lang) {
+        List<RegionEntity> lists = regionRepository.findByVisibleIsTrue();
 
+        List<RegionResponseDTO> response = new LinkedList<>();
+        lists.forEach(entity -> response.add(toDTOLang(lang, entity)));
+        return response;
+    }
+
+    private RegionResponseDTO toDTOLang(Lang lang, RegionEntity entity) {
+        RegionResponseDTO dto = new RegionResponseDTO();
+        dto.setId(entity.getId());
+        dto.setKey(entity.getKey());
+        switch (lang){
+            case RU -> dto.setName(entity.getNameRu());
+            case EN -> dto.setName(entity.getNameEn());
+            default -> dto.setName(entity.getNameUz());
+        }
+        return dto;
+
+    }
     private RegionDTO toDTO(RegionEntity entity) {
         RegionDTO dto = new RegionDTO();
         dto.setId(entity.getId());

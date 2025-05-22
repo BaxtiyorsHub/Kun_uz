@@ -1,7 +1,9 @@
 package dasturlash.uz.services;
 
 import dasturlash.uz.dto.CategoryDTO;
+import dasturlash.uz.dto.CategoryResponseDTO;
 import dasturlash.uz.entities.CategoryEntity;
+import dasturlash.uz.enums.Lang;
 import dasturlash.uz.repository.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,12 @@ import java.util.List;
 
 @Service
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
+
+    private final CategoryRepository categoryRepository;
+
+    public CategoryService(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
 
     public CategoryDTO create(CategoryDTO categoryDTO) {
         CategoryEntity category = new CategoryEntity();
@@ -72,5 +78,25 @@ public class CategoryService {
         List<CategoryEntity> allCategory = new LinkedList<>();
         categoryRepository.findAll().forEach(allCategory::add);
         return allCategory;
+    }
+
+    public List<CategoryResponseDTO> getListByLang(Lang lang) {
+        List<CategoryEntity> categories = categoryRepository.findByVisibleIsTrue();
+
+        List<CategoryResponseDTO> response = new LinkedList<>();
+        categories.forEach(c -> response.add(toDtoLang(lang,c)));
+        return response;
+    }
+
+    private CategoryResponseDTO toDtoLang(Lang lang, CategoryEntity c) {
+        CategoryResponseDTO dto = new CategoryResponseDTO();
+        dto.setId(c.getId());
+        dto.setKey(c.getKey());
+        switch (lang){
+            case RU -> dto.setName(c.getNameRu());
+            case EN -> dto.setName(c.getNameEn());
+            default -> dto.setName(c.getNameUz());
+        }
+        return dto;
     }
 }

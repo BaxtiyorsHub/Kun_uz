@@ -1,9 +1,11 @@
 package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.RegionDTO;
+import dasturlash.uz.dto.RegionResponseDTO;
 import dasturlash.uz.entities.RegionEntity;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.services.RegionService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +16,15 @@ import java.util.List;
 @RestController
 public class RegionController {
 
-    @Autowired
-    private RegionService regionService;
+    private final RegionService regionService;
 
-    @PostMapping("")
-    public ResponseEntity<RegionDTO> create(@RequestBody RegionDTO regionDTO) {
+    public RegionController(RegionService regionService) {
+        this.regionService = regionService;
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<RegionDTO> create(@Valid
+            @RequestBody RegionDTO regionDTO) {
         return ResponseEntity.ok(regionService.create(regionDTO));
     }
 
@@ -44,7 +50,7 @@ public class RegionController {
     }
 
     @GetMapping("/byLang")
-    public ResponseEntity<List<RegionEntity>> getByLang(@RequestParam String lang){
+    public ResponseEntity<List<RegionResponseDTO>> getByLang(@RequestParam(defaultValue = "uz") Lang lang){
         return ResponseEntity.ok(regionService.getListByLang(lang));
     }
 }

@@ -1,7 +1,9 @@
 package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.CategoryDTO;
+import dasturlash.uz.dto.CategoryResponseDTO;
 import dasturlash.uz.entities.CategoryEntity;
+import dasturlash.uz.enums.Lang;
 import dasturlash.uz.services.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +16,13 @@ import java.util.List;
 @RestController
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
-    @PostMapping("")
+    public CategoryController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
+    @PostMapping("/create")
     public ResponseEntity<CategoryDTO> create(@Valid
             @RequestBody CategoryDTO categoryDTO){
         return ResponseEntity.ok(categoryService.create(categoryDTO));
@@ -42,5 +47,10 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Integer id){
         return ResponseEntity.ok(categoryService.delete(id));
+    }
+
+    @GetMapping("/byLang")
+    public ResponseEntity<List<CategoryResponseDTO>> getByLang(@PathVariable Lang lang){
+        return ResponseEntity.ok(categoryService.getListByLang(lang));
     }
 }
