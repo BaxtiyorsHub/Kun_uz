@@ -1,8 +1,10 @@
 package dasturlash.uz.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import dasturlash.uz.enums.RolesEnum;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "profile_roles")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProfileRolesEntity {
 
     @Id

@@ -2,7 +2,6 @@ package dasturlash.uz.services;
 
 import dasturlash.uz.dto.CategoryDTO;
 import dasturlash.uz.entities.CategoryEntity;
-import dasturlash.uz.entities.RegionEntity;
 import dasturlash.uz.repository.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,6 @@ public class CategoryService {
         category.setNameRu(categoryDTO.getNameRu());
         category.setNameEn(categoryDTO.getNameEn());
         category.setKey(categoryDTO.getKey());
-        category.setVisible(true);
 
         categoryRepository.save(category);
         return toDTO(category);
@@ -33,8 +31,8 @@ public class CategoryService {
         return category != null ? toDTO(category) : null;
     }
 
-    public CategoryDTO update(CategoryDTO categoryDTO) {
-        CategoryEntity category = categoryRepository.findByIdAndVisibleIsTrue(categoryDTO.getId());
+    public CategoryDTO update(Integer id, CategoryDTO categoryDTO) {
+        CategoryEntity category = categoryRepository.findByIdAndVisibleIsTrue(id);
         if (category == null) {
             throw new EntityNotFoundException("Region not found or not visible with id: " + categoryDTO.getId());
         }

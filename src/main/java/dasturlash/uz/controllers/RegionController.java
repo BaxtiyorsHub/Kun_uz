@@ -2,6 +2,7 @@ package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.RegionDTO;
 import dasturlash.uz.entities.RegionEntity;
+import dasturlash.uz.enums.Lang;
 import dasturlash.uz.services.RegionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/region")
+@RequestMapping("/api/v1/region")
+@RestController
 public class RegionController {
 
     @Autowired
@@ -30,10 +32,10 @@ public class RegionController {
         return ResponseEntity.ok(regionService.getListAll());
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("")
     public ResponseEntity<RegionDTO> update(@PathVariable Integer id,
-                                            @RequestBody RegionDTO regionDTO) {
-        return ResponseEntity.ok(regionService.update(regionDTO));
+            @RequestBody RegionDTO regionDTO) {
+        return ResponseEntity.ok(regionService.update(id, regionDTO));
     }
 
     @DeleteMapping("/{id}")

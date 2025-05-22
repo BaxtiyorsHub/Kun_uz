@@ -3,20 +3,22 @@ package dasturlash.uz.controllers;
 import dasturlash.uz.dto.CategoryDTO;
 import dasturlash.uz.entities.CategoryEntity;
 import dasturlash.uz.services.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/category")
+@RequestMapping("/api/v1/category")
+@RestController
 public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
 
     @PostMapping("")
-    public ResponseEntity<CategoryDTO> create(
+    public ResponseEntity<CategoryDTO> create(@Valid
             @RequestBody CategoryDTO categoryDTO){
         return ResponseEntity.ok(categoryService.create(categoryDTO));
     }
@@ -32,8 +34,9 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoryDTO> update(@RequestBody CategoryDTO categoryDTO){
-        return ResponseEntity.ok(categoryService.update(categoryDTO));
+    public ResponseEntity<CategoryDTO> update(@PathVariable Integer id,
+            @RequestBody CategoryDTO categoryDTO){
+        return ResponseEntity.ok(categoryService.update(id,categoryDTO));
     }
 
     @DeleteMapping("/{id}")

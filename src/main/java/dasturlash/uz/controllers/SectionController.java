@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/section")
+@RequestMapping("/api/v1/section")
+@RestController
 public class SectionController {
 
     @Autowired
@@ -16,12 +17,12 @@ public class SectionController {
 
     @PostMapping("")
     public ResponseEntity<SectionDTO> create(
-            @RequestBody SectionDTO sectionDTO){
+            @RequestBody SectionDTO sectionDTO) {
         return ResponseEntity.ok(sectionService.create(sectionDTO));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SectionDTO> get(@PathVariable Integer id){
+    public ResponseEntity<SectionDTO> get(@PathVariable Integer id) {
         return ResponseEntity.ok(sectionService.getById(id));
     }
 
@@ -31,12 +32,13 @@ public class SectionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SectionDTO> update(@PathVariable Integer id){
-        return ResponseEntity.ok(sectionService.update(id));
+    public ResponseEntity<SectionDTO> update(@PathVariable Integer id,
+                                             @RequestBody SectionDTO sectionDTO) {
+        return ResponseEntity.ok(sectionService.update(id, sectionDTO));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable Integer id){
+    public ResponseEntity<Boolean> delete(@PathVariable Integer id) {
         return ResponseEntity.ok(sectionService.delete(id));
     }
 }

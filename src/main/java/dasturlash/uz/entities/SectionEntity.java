@@ -1,5 +1,6 @@
 package dasturlash.uz.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -7,12 +8,12 @@ import lombok.AccessLevel;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
 @Table(name = "section")
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SectionEntity {
 
     @Id

@@ -1,5 +1,6 @@
 package dasturlash.uz.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "category")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryEntity {
 
     @Id
@@ -36,7 +38,7 @@ public class CategoryEntity {
     private String key;
 
     @Column(name = "visible", nullable = false)
-    private Boolean visible;
+    private Boolean visible = true;
 
     @CreationTimestamp
     @Setter(AccessLevel.NONE)

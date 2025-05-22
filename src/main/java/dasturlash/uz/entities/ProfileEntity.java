@@ -1,5 +1,7 @@
 package dasturlash.uz.entities;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import dasturlash.uz.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -15,6 +17,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "profile")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProfileEntity {
 
     @Id
@@ -41,8 +44,11 @@ public class ProfileEntity {
     @Column(name = "visible", nullable = false)
     private Boolean visible = true;
 
-   @CreationTimestamp
-   @Setter(AccessLevel.NONE)
+    @Column(name = "status")
+    Status status = Status.ACTIVE;
+
+    @CreationTimestamp
+    @Setter(AccessLevel.NONE)
     private LocalDateTime createdDate;
 
     @Column(name = "photo_id")

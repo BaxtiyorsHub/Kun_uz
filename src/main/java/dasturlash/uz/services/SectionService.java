@@ -1,9 +1,6 @@
 package dasturlash.uz.services;
 
-import dasturlash.uz.dto.ProfileDTO;
-import dasturlash.uz.dto.RegionDTO;
 import dasturlash.uz.dto.SectionDTO;
-import dasturlash.uz.entities.RegionEntity;
 import dasturlash.uz.entities.SectionEntity;
 import dasturlash.uz.repository.SectionRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -36,8 +33,8 @@ public class SectionService {
         return section != null ? toDTO(section) : null;
     }
 
-    public SectionDTO update(SectionDTO sectionDTO) {
-        SectionEntity section = sectionRepository.findByIdAndVisibleIsTrue(sectionDTO.getId());
+    public SectionDTO update(Integer id,SectionDTO sectionDTO) {
+        SectionEntity section = sectionRepository.findByIdAndVisibleIsTrue(id);
         if (section == null) {
             throw new EntityNotFoundException("Section not found or not visible with id: " + sectionDTO.getId());
         }

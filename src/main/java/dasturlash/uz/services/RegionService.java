@@ -2,13 +2,14 @@ package dasturlash.uz.services;
 
 import dasturlash.uz.dto.RegionDTO;
 import dasturlash.uz.entities.RegionEntity;
+import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.RegionRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RegionService {
@@ -17,6 +18,12 @@ public class RegionService {
     private RegionRepository regionRepository;
 
     public RegionDTO create(RegionDTO regionDTO) {
+        Optional<RegionEntity> entity = regionRepository.findByKeyAndOrderNumber(
+                regionDTO.getKey(),
+                regionDTO.getOrderNumber());
+
+        if (entity.isEmpty()) throw new AppBadExp("Region with this key and orderNumber already exists");
+
         RegionEntity region = new RegionEntity();
         region.setOrderNumber(regionDTO.getOrderNumber());
         region.setNameUz(regionDTO.getNameUz());
@@ -40,10 +47,10 @@ public class RegionService {
         return allRegion;
     }
 
-    public RegionDTO update(RegionDTO regionDTO) {
-        RegionEntity region = regionRepository.findByIdAndVisibleIsTrue(regionDTO.getId());
+    public RegionDTO update(Integer id,RegionDTO regionDTO) {
+        RegionEntity region = regionRepository.findByIdAndVisibleIsTrue(id);
         if (region == null) {
-            throw new EntityNotFoundException("Region not found or not visible with id: " + regionDTO.getId());
+            throw new AppBadExp("Region not found or not visible with id: " + regionDTO.getId());
         }
 
         if (regionDTO.getNameUz() != null) region.setNameUz(regionDTO.getNameUz());
@@ -55,11 +62,10 @@ public class RegionService {
         return toDTO(region);
     }
 
-
     public Boolean delete(Integer id) {
         RegionEntity region = regionRepository.findByIdAndVisibleIsTrue(id);
         if (region == null) {
-            throw new EntityNotFoundException("Region not found or already deleted");
+            throw new AppBadExp("Region not found or already deleted");
         }
 
         region.setVisible(false);
@@ -78,17 +84,5 @@ public class RegionService {
         dto.setKey(entity.getKey());
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
-    }
-
-    public List<RegionEntity> getListByLang(String lang) {
-        List<RegionEntity> list;
-        if (lang.equals("uz")) {
-            list = regionRepository.findAllByNameEnLikeIgnoreCase("%" + "lang" + "%");
-        } else if (lang.equals("ru")) {
-            list = regionRepository.findAllByNameRuLikeIgnoreCase("%" + "lang" + "%");
-        } else {
-            list = regionRepository.findAllByNameUzLikeIgnoreCase("%" + "lang" + "%");
-        }
-        return list;
     }
 }
