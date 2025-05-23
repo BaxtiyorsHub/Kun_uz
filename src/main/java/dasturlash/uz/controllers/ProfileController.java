@@ -1,7 +1,9 @@
 package dasturlash.uz.controllers;
 
+import dasturlash.uz.dto.FilterRequestDTO;
 import dasturlash.uz.responseDto.ProfileInfoDTO;
 import dasturlash.uz.dto.ProfileRequestDTO;
+import dasturlash.uz.responseDto.ProfileInfoResponseDTO;
 import dasturlash.uz.services.ProfileService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -57,5 +59,13 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.pagination(page-1,size));
     }
 
+    @PostMapping("/pagination/filter")
+    public ResponseEntity<Page<ProfileInfoResponseDTO>> getPaginationFilter(
+            @RequestParam Integer page,
+            @RequestParam Integer size,
+            @RequestBody FilterRequestDTO dto
+    ) {
+        return ResponseEntity.ok(profileService.filter(page-1,size,dto));
+    }
 
 }

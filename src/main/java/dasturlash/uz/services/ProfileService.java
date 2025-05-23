@@ -1,5 +1,7 @@
 package dasturlash.uz.services;
 
+import dasturlash.uz.dto.FilterRequestDTO;
+import dasturlash.uz.repository.customRepo.ProfileCustomRepo;
 import dasturlash.uz.responseDto.ProfileInfoDTO;
 import dasturlash.uz.dto.ProfileRequestDTO;
 import dasturlash.uz.entities.ProfileEntity;
@@ -7,11 +9,9 @@ import dasturlash.uz.entities.ProfileRolesEntity;
 import dasturlash.uz.enums.RolesEnum;
 import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.repository.ProfileRolesRepository;
+import dasturlash.uz.responseDto.ProfileInfoResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -22,10 +22,12 @@ import java.util.Optional;
 public class ProfileService {
     private final ProfileRepository profileRepository;
     private final ProfileRolesRepository profileRolesRepository;
+    private final ProfileCustomRepo profileCustomRepo;
 
-    public ProfileService(ProfileRepository profileRepository, ProfileRolesRepository profileRolesRepository) {
+    public ProfileService(ProfileRepository profileRepository, ProfileRolesRepository profileRolesRepository, ProfileCustomRepo profileCustomRepo) {
         this.profileRepository = profileRepository;
         this.profileRolesRepository = profileRolesRepository;
+        this.profileCustomRepo = profileCustomRepo;
     }
 
     public ProfileInfoDTO create(ProfileRequestDTO dto) {
@@ -136,5 +138,33 @@ public class ProfileService {
             dtos.add(toDTO(entity));
         }
         return new PageImpl<>(dtos, pageRequest, total);
+    }
+
+    public Page<ProfileInfoResponseDTO> filter(Integer page, Integer size, FilterRequestDTO dto) {
+        Page<ProfileEntity> pageResult = profileCustomRepo.filter(page, size, dto);
+
+        Long total = pageResult.getTotalElements();
+        List<ProfileEntity> dtos = pageResult.getContent();
+
+        List<ProfileInfoResponseDTO> responseDTOS = new LinkedList<>();
+
+        dtos.forEach(e -> responseDTOS.add(toResponse(e)));
+
+        return new PageImpl<>(responseDTOS, PageRequest.of(page,size), total);
+    }
+
+    private ProfileInfoResponseDTO toResponse(ProfileEntity e) {
+        ProfileInfoResponseDTO dto = new ProfileInfoResponseDTO();
+        dto.setId(e.getId());
+        dto.setName(e.getName());
+        dto.setSurname(e.getSurname());
+        dto.setEmail(e.getEmail());
+        dto.setPhone(e.getPhone());
+        dto.setPhotoId(e.getPhotoId());
+        dto.setCreatedDate(e.getCreatedDate());
+        dto.setStatus(e.getStatus());
+        dto.setVisible(e.getVisible());
+
+        return dto;
     }
 }

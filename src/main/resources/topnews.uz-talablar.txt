@@ -113,7 +113,7 @@ tun.uz partalida quyidagi talablar bajarilishi kerak:
     5. Profile List (ADMIN) (Pagination) // done baby😉😉
     6. Update Photo (ANY) (Murojat qilgan odamni rasmini upda qilish)   (remove old image)
            photo_id // databaseda old rasm bo'lishi kerakmi⁉️⁉️ nu done
-    7. Filter (name,surname,phone,role,created_date_from,created_date_to)
+    7. Filter (name,surname,phone,role,created_date_from,created_date_to) // admin uchunmi? name yozsa faqat namelar kelsinmi
 3. Region
     1. Create  (ADMIN)
         (order_number,nameUz, nameRu, nameEn, key)
