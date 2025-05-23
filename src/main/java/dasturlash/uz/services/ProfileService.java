@@ -1,6 +1,7 @@
 package dasturlash.uz.services;
 
-import dasturlash.uz.dto.ProfileDTO;
+import dasturlash.uz.responseDto.ProfileInfoDTO;
+import dasturlash.uz.dto.ProfileRequestDTO;
 import dasturlash.uz.entities.ProfileEntity;
 import dasturlash.uz.entities.ProfileRolesEntity;
 import dasturlash.uz.enums.RolesEnum;
@@ -22,7 +23,7 @@ public class ProfileService {
         this.profileRolesRepository = profileRolesRepository;
     }
 
-    public ProfileDTO create(ProfileDTO dto, List<RolesEnum> role) {
+    public ProfileInfoDTO create(ProfileRequestDTO dto) {
         ProfileEntity profile = new ProfileEntity();
 
         profile.setName(dto.getName());
@@ -34,7 +35,7 @@ public class ProfileService {
 
         profileRepository.save(profile);
 
-        for (RolesEnum roleEnum : role) {
+        for (RolesEnum roleEnum : dto.getRolesEnumList()) {
             ProfileRolesEntity rolesEntity = new ProfileRolesEntity();
 
             rolesEntity.setProfile(profile);
@@ -45,7 +46,7 @@ public class ProfileService {
         return toDTO(profile);
     }
 
-    public ProfileDTO getById(Integer id) {
+    public ProfileInfoDTO getById(Integer id) {
         ProfileEntity profile = profileRepository.findByIdAndVisibleIsTrue(id);
         return profile != null ? toDTO(profile) : null;
     }
@@ -56,12 +57,12 @@ public class ProfileService {
         return allProfile;
     }
 
-    public ProfileDTO update(Integer id, ProfileDTO profileDTO) {
+    public ProfileInfoDTO update(Integer id, ProfileRequestDTO profileDTO) {
 
         ProfileEntity profile = profileRepository.findByIdAndVisibleIsTrue(id);
 
         if (profile == null) {
-            throw new EntityNotFoundException("Profile not found or not visible with id: " + profileDTO.getId());
+            throw new EntityNotFoundException("Profile not found or not visible with id: " + id);
         }
 
         if (profileDTO.getName() != null) profile.setName(profileDTO.getName());
@@ -70,7 +71,14 @@ public class ProfileService {
         if (profileDTO.getEmail() != null) profile.setEmail(profileDTO.getEmail());
         if (profileDTO.getPassword() != null) profile.setPassword(profileDTO.getPassword());
         if (profileDTO.getPhotoId() != null) profile.setPhotoId(profileDTO.getPhotoId());
-
+        if (profileDTO.getRolesEnumList() != null) {
+            for (RolesEnum roleEnum : profileDTO.getRolesEnumList()){
+                ProfileRolesEntity rolesEntity = new ProfileRolesEntity();
+                rolesEntity.setProfile(profile);
+                rolesEntity.setRole(roleEnum);
+                profileRolesRepository.save(rolesEntity);
+            }
+        }
 
         profileRepository.save(profile);
         return toDTO(profile);
@@ -88,8 +96,8 @@ public class ProfileService {
         return true;
     }
 
-    private ProfileDTO toDTO(ProfileEntity entity) {
-        ProfileDTO dto = new ProfileDTO();
+    private ProfileInfoDTO toDTO(ProfileEntity entity) {
+        ProfileInfoDTO dto = new ProfileInfoDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
         dto.setSurname(entity.getSurname());

@@ -1,14 +1,11 @@
 package dasturlash.uz.controllers;
 
-import dasturlash.uz.dto.ProfileDTO;
-import dasturlash.uz.enums.RolesEnum;
+import dasturlash.uz.responseDto.ProfileInfoDTO;
+import dasturlash.uz.dto.ProfileRequestDTO;
 import dasturlash.uz.services.ProfileService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("/api/v1/profile")
 @RestController
@@ -21,21 +18,20 @@ public class ProfileController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ProfileDTO> create(@Valid
-            @RequestBody ProfileDTO profileDTO,
-            @RequestBody List<RolesEnum> list
+    public ResponseEntity<ProfileInfoDTO> create(@Valid
+                                                    @RequestBody ProfileRequestDTO profile
     ) {
-        return ResponseEntity.ok(profileService.create(profileDTO,list));
+        return ResponseEntity.ok(profileService.create(profile));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfileDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<ProfileInfoDTO> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(profileService.getById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProfileDTO> update(@PathVariable Integer id,
-                                             @RequestBody ProfileDTO profileDTO) {
+    public ResponseEntity<ProfileInfoDTO> update(@PathVariable Integer id,
+                                             @RequestBody ProfileRequestDTO profileDTO) {
         return ResponseEntity.ok(profileService.update(id, profileDTO));
     }
 

@@ -41,16 +41,16 @@ public class ProfileEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "visible", nullable = false)
-    private Boolean visible = true;
-
     @Column(name = "status")
     Status status = Status.ACTIVE;
+
+    @Column(name = "photo_id")
+    private String photoId;
+
+    @Column(name = "visible", nullable = false)
+    private Boolean visible = true;
 
     @CreationTimestamp
     @Setter(AccessLevel.NONE)
     private LocalDateTime createdDate;
-
-    @Column(name = "photo_id")
-    private String photoId;
 }

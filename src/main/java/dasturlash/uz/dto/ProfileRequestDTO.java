@@ -1,22 +1,18 @@
 package dasturlash.uz.dto;
 
+import dasturlash.uz.enums.RolesEnum;
 import dasturlash.uz.enums.Status;
-import io.micrometer.common.lang.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.List;
 
 @Getter
 @Setter
-public class ProfileDTO {
-
-    private Integer id; // Optional: faqat response uchun
+public class ProfileRequestDTO {
 
     @NotBlank(message = "Ism bo‘sh bo‘lmasligi kerak")
     private String name;
@@ -36,10 +32,8 @@ public class ProfileDTO {
     @NotNull(message = "Status null bo‘lmasligi kerak")
     private Status status;
 
-    @NotNull(message = "Visible qiymati null bo‘lmasligi kerak")
-    private Boolean visible;
+    private String photoId;
 
-    private LocalDateTime createdDate; // Optional: server tomonidan to‘ldiriladi
-
-    private String photoId; // Optional: rasm bo‘lmasligi mumkin
+    @NotNull(message = "Role bo'lishi kerak")
+    private List<RolesEnum> rolesEnumList;
 }

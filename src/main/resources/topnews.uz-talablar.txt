@@ -106,10 +106,10 @@ tun.uz partalida quyidagi talablar bajarilishi kerak:
 2. Profile
     1. Create profile (ADMIN) (can create ROLE_MODERATOR, ROLE_PUBLISHER))
          Request: name,surname,username(email/phone),password,status, roleList[]
-         Response: ProfileInfoDTO
-    2. Update Profile (ADMIN)
-    3. Update Profile Detail (ANY) (Profile updates own details)
-    4. Delete Profile By Id (ADMIN)
+         Response: ProfileInfoDTO // done😉😉😉😉
+    2. Update Profile (ADMIN) // done😉😉😉😉
+    3. Update Profile Detail (ANY) (Profile updates own details) // qilingan lkn anymi tushunarsiz⁉️
+    4. Delete Profile By Id (ADMIN) // done😉😉😉😉
     5. Profile List (ADMIN) (Pagination)
     6. Update Photo (ANY) (Murojat qilgan odamni rasmini upda qilish)   (remove old image)
            photo_id
