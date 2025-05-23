@@ -4,8 +4,11 @@ import dasturlash.uz.responseDto.ProfileInfoDTO;
 import dasturlash.uz.dto.ProfileRequestDTO;
 import dasturlash.uz.services.ProfileService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/api/v1/profile")
 @RestController
@@ -38,6 +41,20 @@ public class ProfileController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@PathVariable Integer id) {
         return ResponseEntity.ok(profileService.delete(id));
+    }
+
+    @PutMapping("/profilePhoto/{id}")
+    public ResponseEntity<ProfileInfoDTO> updatePhoto(@PathVariable Integer id,
+                                                      @RequestBody String photoId) {
+        return ResponseEntity.ok(profileService.photoUpdate(id,photoId));
+    }
+
+    @GetMapping("/pagination")
+    public ResponseEntity<Page<ProfileInfoDTO>> getPagination(
+            @RequestParam Integer page,
+            @RequestParam Integer size
+    ) {
+        return ResponseEntity.ok(profileService.pagination(page-1,size));
     }
 
 

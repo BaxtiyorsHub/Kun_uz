@@ -110,9 +110,9 @@ tun.uz partalida quyidagi talablar bajarilishi kerak:
     2. Update Profile (ADMIN) // done😉😉😉😉
     3. Update Profile Detail (ANY) (Profile updates own details) // qilingan lkn anymi tushunarsiz⁉️
     4. Delete Profile By Id (ADMIN) // done😉😉😉😉
-    5. Profile List (ADMIN) (Pagination)
+    5. Profile List (ADMIN) (Pagination) // done baby😉😉
     6. Update Photo (ANY) (Murojat qilgan odamni rasmini upda qilish)   (remove old image)
-           photo_id
+           photo_id // databaseda old rasm bo'lishi kerakmi⁉️⁉️ nu done
     7. Filter (name,surname,phone,role,created_date_from,created_date_to)
 3. Region
     1. Create  (ADMIN)

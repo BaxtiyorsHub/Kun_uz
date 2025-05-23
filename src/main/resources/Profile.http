@@ -3,13 +3,13 @@ POST http://localhost:8080/api/v1/profile/create
 Content-Type: application/json
 
 {
-  "name": "Ali",
-  "surname": "Valiyyev",
-  "phone": "+998901234567",
-  "email": "ali@gmail.com",
-  "password": "securePassword123",
+  "name": "Bobur",
+  "surname": "Jumaniyazov",
+  "phone": "+998900000002",
+  "email": "baxtiyorking17@gmail.com",
+  "password": "apple0",
   "status": "ACTIVE",
-  "photoId": "photo123",
+  "photoId": "hotos123",
   "rolesEnumList": ["ADMIN", "MODERATOR"]
 }
 
@@ -34,3 +34,12 @@ Content-Type: application/json
 
 ### DELETE profile
 DELETE http://localhost:8080/api/v1/profile/1
+
+### Photo update
+PUT http://localhost:8080/api/v1/profile/profilePhoto/1
+Content-Type: application/json
+
+"fb6ae1f4-1aab"
+
+### pagination
+GET localhost:8080/api/v1/profile/pagination?page=1&size=2

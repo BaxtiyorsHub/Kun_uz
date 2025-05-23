@@ -8,10 +8,15 @@ import dasturlash.uz.enums.RolesEnum;
 import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.repository.ProfileRolesRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfileService {
@@ -72,7 +77,7 @@ public class ProfileService {
         if (profileDTO.getPassword() != null) profile.setPassword(profileDTO.getPassword());
         if (profileDTO.getPhotoId() != null) profile.setPhotoId(profileDTO.getPhotoId());
         if (profileDTO.getRolesEnumList() != null) {
-            for (RolesEnum roleEnum : profileDTO.getRolesEnumList()){
+            for (RolesEnum roleEnum : profileDTO.getRolesEnumList()) {
                 ProfileRolesEntity rolesEntity = new ProfileRolesEntity();
                 rolesEntity.setProfile(profile);
                 rolesEntity.setRole(roleEnum);
@@ -107,5 +112,29 @@ public class ProfileService {
         dto.setPhotoId(entity.getPhotoId());
         dto.setCreatedDate(entity.getCreatedDate());
         return dto;
+    }
+
+    public ProfileInfoDTO photoUpdate(Integer id, String photoId) {
+        ProfileEntity byId = profileRepository.findByIdAndVisibleIsTrue(id);
+        if (photoId.isBlank()) throw new EntityNotFoundException("Photo id is blank");
+        byId.setPhotoId(photoId);
+
+        profileRepository.save(byId);
+        return toDTO(byId);
+    }
+
+    public PageImpl<ProfileInfoDTO> pagination(Integer page, Integer size) {
+        Sort sort = Sort.by("createdDate").descending();
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        Page<ProfileEntity> entities = profileRepository.findAll(pageRequest);
+
+        Long total = entities.getTotalElements();
+        List<ProfileEntity> result = entities.getContent();
+
+        List<ProfileInfoDTO> dtos = new LinkedList<>();
+        for (ProfileEntity entity : result) {
+            dtos.add(toDTO(entity));
+        }
+        return new PageImpl<>(dtos, pageRequest, total);
     }
 }
