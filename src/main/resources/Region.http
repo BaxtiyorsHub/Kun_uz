@@ -1,0 +1,42 @@
+### 1. Region yaratish (CREATE)
+POST http://localhost:8080/api/v1/region/create
+Content-Type: application/json
+
+{
+  "orderNumber": 3,
+  "nameUz": "Urganch",
+  "nameRu": "Ташкент",
+  "nameEn": "Tashkent",
+  "key": "tashkent",
+  "visible": true
+}
+
+
+### 2. Region yangilash (UPDATE)
+PUT http://localhost:8080/api/v1/region/1
+Content-Type: application/json
+
+{
+  "orderNumber": 2,
+  "nameUz": "Yangilangan Toshkent",
+  "nameRu": "Обновленный Ташкент",
+  "nameEn": "Updated Tashkent",
+  "key": "updated-tashkent",
+  "visible": false
+}
+
+
+### 3. Regionni ID orqali olish (GET BY ID)
+GET http://localhost:8080/api/v1/region/1
+
+
+### 4. Regionlarni til bo‘yicha olish (GET BY LANG)
+GET http://localhost:8080/api/v1/region/byLang?lang=UZ
+
+
+### 5. Regionni o‘chirish (DELETE)
+DELETE http://localhost:8080/api/v1/region/1
+
+
+### 6. Barcha regionlar ro‘yxati (GET ALL)
+GET http://localhost:8080/api/v1/region/list

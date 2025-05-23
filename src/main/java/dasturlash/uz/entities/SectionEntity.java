@@ -38,12 +38,12 @@ public class SectionEntity {
     private String key;
 
     @Column(name = "visible", nullable = false)
-    private Boolean visible;
+    private Boolean visible = true;
 
-    @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate;
+    @Column(name = "image_id")
+    private String imageId;
 
     @CreationTimestamp
     @Setter(AccessLevel.NONE)
-    private String imageId;
+    private LocalDateTime createdDate;
 }

@@ -1,12 +1,11 @@
 package dasturlash.uz.services;
 
 import dasturlash.uz.dto.CategoryDTO;
-import dasturlash.uz.dto.CategoryResponseDTO;
+import dasturlash.uz.responseDto.CategoryResponseDTO;
 import dasturlash.uz.entities.CategoryEntity;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.repository.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -23,6 +22,7 @@ public class CategoryService {
 
     public CategoryDTO create(CategoryDTO categoryDTO) {
         CategoryEntity category = new CategoryEntity();
+        category.setOrderNumber(categoryDTO.getOrderId());
         category.setNameUz(categoryDTO.getNameUz());
         category.setNameRu(categoryDTO.getNameRu());
         category.setNameEn(categoryDTO.getNameEn());

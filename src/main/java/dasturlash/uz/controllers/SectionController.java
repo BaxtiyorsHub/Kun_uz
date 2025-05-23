@@ -1,7 +1,7 @@
 package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.SectionDTO;
-import dasturlash.uz.dto.SectionResponseDTO;
+import dasturlash.uz.responseDto.SectionResponseDTO;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.services.SectionService;
 import jakarta.validation.Valid;
@@ -48,7 +48,8 @@ public class SectionController {
     }
 
     @GetMapping("/byLang")
-    public ResponseEntity<List<SectionResponseDTO>> getByLang(@RequestParam(defaultValue = "uz") Lang lang) {
+    public ResponseEntity<List<SectionResponseDTO>> getByLang(
+            @RequestParam(defaultValue = "uz") Lang lang) {
         return ResponseEntity.ok(sectionService.getListLang(lang));
     }
 }

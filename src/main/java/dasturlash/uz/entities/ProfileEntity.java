@@ -35,7 +35,7 @@ public class ProfileEntity {
     @Column(name = "phone", nullable = false, unique = true)
     private String phone;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "password", nullable = false)

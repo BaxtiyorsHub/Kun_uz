@@ -1,0 +1,40 @@
+### Create Section
+POST http://localhost:8080/api/v1/section/create
+Content-Type: application/json
+
+{
+  "orderNumber": 3,
+  "nameUz": "Bo‘lim 2",
+  "nameRu": "Раздел 2",
+  "nameEn": "Section 2",
+  "key": "section2",
+  "visible": true
+}
+
+### Get Section by ID
+GET http://localhost:8080/api/v1/section/2
+Accept: application/json
+
+### Update Section
+PUT http://localhost:8080/api/v1/section/2
+Content-Type: application/json
+
+{
+  "orderNumber": 2,
+  "nameUz": "Bo‘lim 1 (yangilangan)",
+  "nameRu": "Раздел 1 (обновлено)",
+  "nameEn": "Section 1 (updated)",
+  "key": "section1-updated",
+  "visible": true
+}
+
+### Delete Section
+DELETE http://localhost:8080/api/v1/section/2
+
+### Get Section List
+GET http://localhost:8080/api/v1/section/list
+Accept: application/json
+
+### Get Section by Language
+GET http://localhost:8080/api/v1/section/byLang?lang=UZ
+Accept: application/json

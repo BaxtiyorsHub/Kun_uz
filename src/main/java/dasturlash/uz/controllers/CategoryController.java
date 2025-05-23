@@ -1,12 +1,11 @@
 package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.CategoryDTO;
-import dasturlash.uz.dto.CategoryResponseDTO;
+import dasturlash.uz.responseDto.CategoryResponseDTO;
 import dasturlash.uz.entities.CategoryEntity;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.services.CategoryService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +49,7 @@ public class CategoryController {
     }
 
     @GetMapping("/byLang")
-    public ResponseEntity<List<CategoryResponseDTO>> getByLang(@PathVariable Lang lang){
+    public ResponseEntity<List<CategoryResponseDTO>> getByLang(@RequestParam Lang lang){
         return ResponseEntity.ok(categoryService.getListByLang(lang));
     }
 }

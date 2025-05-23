@@ -1,12 +1,11 @@
 package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.RegionDTO;
-import dasturlash.uz.dto.RegionResponseDTO;
+import dasturlash.uz.responseDto.RegionResponseDTO;
 import dasturlash.uz.entities.RegionEntity;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.services.RegionService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +37,7 @@ public class RegionController {
         return ResponseEntity.ok(regionService.getListAll());
     }
 
-    @PutMapping("")
+    @PutMapping("/{id}")
     public ResponseEntity<RegionDTO> update(@PathVariable Integer id,
             @RequestBody RegionDTO regionDTO) {
         return ResponseEntity.ok(regionService.update(id, regionDTO));

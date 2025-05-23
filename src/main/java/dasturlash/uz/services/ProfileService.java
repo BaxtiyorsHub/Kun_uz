@@ -2,9 +2,11 @@ package dasturlash.uz.services;
 
 import dasturlash.uz.dto.ProfileDTO;
 import dasturlash.uz.entities.ProfileEntity;
+import dasturlash.uz.entities.ProfileRolesEntity;
+import dasturlash.uz.enums.RolesEnum;
 import dasturlash.uz.repository.ProfileRepository;
+import dasturlash.uz.repository.ProfileRolesRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -13,13 +15,16 @@ import java.util.List;
 @Service
 public class ProfileService {
     private final ProfileRepository profileRepository;
+    private final ProfileRolesRepository profileRolesRepository;
 
-    public ProfileService(ProfileRepository profileRepository) {
+    public ProfileService(ProfileRepository profileRepository, ProfileRolesRepository profileRolesRepository) {
         this.profileRepository = profileRepository;
+        this.profileRolesRepository = profileRolesRepository;
     }
 
-    public ProfileDTO create(ProfileDTO dto) {
+    public ProfileDTO create(ProfileDTO dto, List<RolesEnum> role) {
         ProfileEntity profile = new ProfileEntity();
+
         profile.setName(dto.getName());
         profile.setSurname(dto.getSurname());
         profile.setPassword(dto.getPassword());
@@ -28,6 +33,15 @@ public class ProfileService {
         profile.setPhotoId(dto.getPhotoId());
 
         profileRepository.save(profile);
+
+        for (RolesEnum roleEnum : role) {
+            ProfileRolesEntity rolesEntity = new ProfileRolesEntity();
+
+            rolesEntity.setProfile(profile);
+            rolesEntity.setRole(roleEnum);
+            profileRolesRepository.save(rolesEntity);
+        }
+
         return toDTO(profile);
     }
 

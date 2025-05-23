@@ -1,0 +1,35 @@
+### CREATE profile
+POST http://localhost:8080/api/v1/profile/create?list=ADMIN&list=MODERATOR
+Content-Type: application/json
+
+{
+  "name": "Ali",
+  "surname": "Valiyev",
+  "phone": "+998901234567",
+  "email": "ali.valiyev@example.com",
+  "password": "strongPassword123",
+  "status": "ACTIVE",
+  "photoId": "avatar123.jpg"
+}
+
+### GET profile by ID
+GET http://localhost:8080/api/v1/profile/1
+Accept: application/json
+
+### UPDATE profile
+PUT http://localhost:8080/api/v1/profile/1
+Content-Type: application/json
+
+{
+  "name": "Ali Updated",
+  "surname": "Valiyev Updated",
+  "phone": "+998901234567",
+  "email": "ali.updated@example.com",
+  "password": "newPassword456",
+  "status": "BLOCK",
+  "visible": false,
+  "photoId": "newAvatar.png"
+}
+
+### DELETE profile
+DELETE http://localhost:8080/api/v1/profile/1

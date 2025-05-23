@@ -1,0 +1,41 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### create category
+POST localhost:8080/api/v1/category/create
+Content-Type: application/json
+
+{
+  "orderId": 10,
+  "nameUz": "Elektronika",
+  "nameRu": "Электроника",
+  "nameEn": "Electronics",
+  "key": "electronics",
+  "visible": true
+}
+
+### Get by id
+GET localhost:8080/api/v1/category/2
+
+### Get list
+GET localhost:8080/api/v1/category/list
+
+### Upadate category
+PUT localhost:8080/api/v1/category/2
+Content-Type: application/json
+
+{
+  "orderId": 2,
+  "nameUz": "Yangilangan nom (UZ)",
+  "nameRu": "Обновленное имя (RU)",
+  "nameEn": "Updated Name (EN)",
+  "key": "updated-key",
+  "visible": true
+}
+
+### get by lang
+GET http://localhost:8080/api/v1/category/byLang?lang=UZ
+
+### Delete
+DELETE localhost:8080/api/v1/category/2

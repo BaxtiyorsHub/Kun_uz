@@ -109,8 +109,8 @@ tun.uz partalida quyidagi talablar bajarilishi kerak:
          Response: ProfileInfoDTO
     2. Update Profile (ADMIN)
     3. Update Profile Detail (ANY) (Profile updates own details)
-    4. Profile List (ADMIN) (Pagination)
-    5. Delete Profile By Id (ADMIN)
+    4. Delete Profile By Id (ADMIN)
+    5. Profile List (ADMIN) (Pagination)
     6. Update Photo (ANY) (Murojat qilgan odamni rasmini upda qilish)   (remove old image)
            photo_id
     7. Filter (name,surname,phone,role,created_date_from,created_date_to)

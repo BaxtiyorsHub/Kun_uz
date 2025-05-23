@@ -38,7 +38,7 @@ public class RegionEntity {
     private String key;
 
     @Column(name = "visible", nullable = false)
-    private Boolean visible;
+    private Boolean visible = true;
 
     @CreationTimestamp
     @Setter(AccessLevel.NONE)

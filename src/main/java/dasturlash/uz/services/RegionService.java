@@ -1,17 +1,15 @@
 package dasturlash.uz.services;
 
 import dasturlash.uz.dto.RegionDTO;
-import dasturlash.uz.dto.RegionResponseDTO;
+import dasturlash.uz.responseDto.RegionResponseDTO;
 import dasturlash.uz.entities.RegionEntity;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.RegionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RegionService {
@@ -23,19 +21,18 @@ public class RegionService {
     }
 
     public RegionDTO create(RegionDTO regionDTO) {
-        Optional<RegionEntity> entity = regionRepository.findByKeyAndOrderNumber(
+        /*Optional<RegionEntity> entity = regionRepository.findByKeyAndOrderNumber(
                 regionDTO.getKey(),
                 regionDTO.getOrderNumber());
 
         if (entity.isEmpty()) throw new AppBadExp("Region with this key and orderNumber already exists");
-
+*/
         RegionEntity region = new RegionEntity();
         region.setOrderNumber(regionDTO.getOrderNumber());
         region.setNameUz(regionDTO.getNameUz());
         region.setNameRu(regionDTO.getNameRu());
         region.setNameEn(regionDTO.getNameEn());
         region.setKey(regionDTO.getKey());
-        region.setVisible(true);
 
         regionRepository.save(region);
         return toDTO(region);
@@ -101,7 +98,6 @@ public class RegionService {
     private RegionDTO toDTO(RegionEntity entity) {
         RegionDTO dto = new RegionDTO();
         dto.setId(entity.getId());
-        dto.setOrderNumber(entity.getOrderNumber());
         dto.setNameUz(entity.getNameUz());
         dto.setNameRu(entity.getNameRu());
         dto.setNameEn(entity.getNameEn());

@@ -1,12 +1,11 @@
 package dasturlash.uz.services;
 
 import dasturlash.uz.dto.SectionDTO;
-import dasturlash.uz.dto.SectionResponseDTO;
+import dasturlash.uz.responseDto.SectionResponseDTO;
 import dasturlash.uz.entities.SectionEntity;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.repository.SectionRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -27,7 +26,6 @@ public class SectionService {
         section.setNameRu(sectionDTO.getNameRu());
         section.setNameEn(sectionDTO.getNameEn());
         section.setKey(sectionDTO.getKey());
-        section.setVisible(true);
 
         sectionRepository.save(section);
         return toDTO(section);
@@ -88,7 +86,6 @@ public class SectionService {
     private SectionDTO toDTO(SectionEntity entity) {
         SectionDTO dto = new SectionDTO();
         dto.setId(entity.getId());
-        dto.setOrderNumber(entity.getOrderNumber());
         dto.setNameUz(entity.getNameUz());
         dto.setNameRu(entity.getNameRu());
         dto.setNameEn(entity.getNameEn());
