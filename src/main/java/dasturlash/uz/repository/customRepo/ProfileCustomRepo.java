@@ -7,6 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -43,20 +44,22 @@ public class ProfileCustomRepo {
             params.put("role", dto.getRole());
         }
         if (dto.getCreatedDateFrom() != null) {
-            conditionBuilder.append(" and created_date >= :createdDateFrom ");
+            conditionBuilder.append(" and createdDate >= :createdDateFrom ");
             params.put("createdDateFrom", dto.getCreatedDateFrom());
         }
         if (dto.getCreatedDateTo() != null) {
-            conditionBuilder.append(" and created_date <= :createdDateTo ");
+            conditionBuilder.append(" and createdDate <= :createdDateTo ");
             params.put("createdDateTo", dto.getCreatedDateTo());
         }
 
         StringBuilder select = new StringBuilder("From ProfileEntity ");
         select.append(conditionBuilder);
-        select.append(" order by created_date desc");
+        select.append(" order by createdDate desc");
 
         StringBuilder count = new StringBuilder(" select count(*) from ProfileEntity ");
         count.append(conditionBuilder);
+
+        PageRequest pageRequest = PageRequest.of(page, size);
 
         Query selectQuery = entityManager.createQuery(select.toString());
         for (Map.Entry<String, Object> entry : params.entrySet()) {
@@ -73,6 +76,6 @@ public class ProfileCustomRepo {
         }
         Long total = (Long) countQuery.getSingleResult();
 
-        return new PageImpl<>(result, null, total);
+        return new PageImpl<>(result, pageRequest, total);
     }
 }

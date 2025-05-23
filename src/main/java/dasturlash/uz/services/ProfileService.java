@@ -150,7 +150,7 @@ public class ProfileService {
 
         dtos.forEach(e -> responseDTOS.add(toResponse(e)));
 
-        return new PageImpl<>(responseDTOS, PageRequest.of(page,size), total);
+        return new PageImpl<>(responseDTOS, pageResult.getPageable(), total);
     }
 
     private ProfileInfoResponseDTO toResponse(ProfileEntity e) {
