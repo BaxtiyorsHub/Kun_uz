@@ -1,9 +1,10 @@
 package dasturlash.uz.controllers;
 
-import dasturlash.uz.dto.FilterRequestDTO;
-import dasturlash.uz.responseDto.ProfileInfoDTO;
-import dasturlash.uz.dto.ProfileRequestDTO;
-import dasturlash.uz.responseDto.ProfileInfoResponseDTO;
+import dasturlash.uz.enums.RolesEnum;
+import dasturlash.uz.request.FilterRequestDTO;
+import dasturlash.uz.request.ProfileRequestDTO;
+import dasturlash.uz.responseDto.ProfileResponseDTO;
+import dasturlash.uz.services.ProfileRoleService;
 import dasturlash.uz.services.ProfileService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -17,27 +18,35 @@ import java.util.List;
 public class ProfileController {
 
     private final ProfileService profileService;
+    private final ProfileRoleService profileRoleService;
 
-    public ProfileController(ProfileService profileService) {
+    public ProfileController(ProfileRoleService profileRoleService, ProfileService profileService) {
+        this.profileRoleService = profileRoleService;
         this.profileService = profileService;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ProfileInfoDTO> create(@Valid
-                                                    @RequestBody ProfileRequestDTO profile
+    public ResponseEntity<ProfileResponseDTO> create(@Valid
+                                                     @RequestBody ProfileRequestDTO profile
     ) {
         return ResponseEntity.ok(profileService.create(profile));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProfileInfoDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<ProfileResponseDTO> getById(@PathVariable Integer id) {
         return ResponseEntity.ok(profileService.getById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProfileInfoDTO> update(@PathVariable Integer id,
-                                             @RequestBody ProfileRequestDTO profileDTO) {
+    public ResponseEntity<ProfileResponseDTO> update(@PathVariable Integer id,
+                                                     @RequestBody ProfileRequestDTO profileDTO) {
         return ResponseEntity.ok(profileService.update(id, profileDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteRole(@PathVariable Integer id,
+                                              @RequestBody List<RolesEnum> rolesEnumList) {
+        return ResponseEntity.ok(profileRoleService.deleteRole(id,rolesEnumList));
     }
 
     @DeleteMapping("/{id}")
@@ -46,26 +55,26 @@ public class ProfileController {
     }
 
     @PutMapping("/profilePhoto/{id}")
-    public ResponseEntity<ProfileInfoDTO> updatePhoto(@PathVariable Integer id,
-                                                      @RequestBody String photoId) {
-        return ResponseEntity.ok(profileService.photoUpdate(id,photoId));
+    public ResponseEntity<ProfileResponseDTO> updatePhoto(@PathVariable Integer id,
+                                                          @RequestBody String photoId) {
+        return ResponseEntity.ok(profileService.photoUpdate(id, photoId));
     }
 
     @GetMapping("/pagination")
-    public ResponseEntity<Page<ProfileInfoDTO>> getPagination(
+    public ResponseEntity<Page<ProfileResponseDTO>> getPagination(
             @RequestParam Integer page,
             @RequestParam Integer size
     ) {
-        return ResponseEntity.ok(profileService.pagination(page-1,size));
+        return ResponseEntity.ok(profileService.pagination(page - 1, size));
     }
 
     @PostMapping("/pagination/filter")
-    public ResponseEntity<Page<ProfileInfoResponseDTO>> getPaginationFilter(
+    public ResponseEntity<Page<ProfileResponseDTO>> getPaginationFilter(
             @RequestParam Integer page,
             @RequestParam Integer size,
             @RequestBody FilterRequestDTO dto
     ) {
-        return ResponseEntity.ok(profileService.filter(page-1,size,dto));
+        return ResponseEntity.ok(profileService.filter(page - 1, size, dto));
     }
 
 }

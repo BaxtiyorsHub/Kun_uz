@@ -1,7 +1,6 @@
-package dasturlash.uz.dto;
+package dasturlash.uz.request;
 
 import dasturlash.uz.enums.RolesEnum;
-import dasturlash.uz.enums.Status;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,6 +13,8 @@ import java.util.List;
 @Setter
 public class ProfileRequestDTO {
 
+    Integer id;
+
     @NotBlank(message = "Ism bo‘sh bo‘lmasligi kerak")
     private String name;
 
@@ -24,16 +25,13 @@ public class ProfileRequestDTO {
     private String phone;
 
     @Email(message = "Email noto‘g‘ri formatda bo'lishi mumkin")
-    private String email; // Optional
+    private String email;
 
     @NotBlank(message = "Parol bo‘sh bo‘lmasligi kerak")
     private String password;
 
-    @NotNull(message = "Status null bo‘lmasligi kerak")
-    private Status status;
-
     private String photoId;
 
-    @NotNull(message = "Role bo'lishi kerak")
+    @NotNull(message = "Rollar bo'lishi kerak")
     private List<RolesEnum> rolesEnumList;
 }

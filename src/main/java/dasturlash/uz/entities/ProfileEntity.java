@@ -41,8 +41,9 @@ public class ProfileEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    Status status = Status.ACTIVE;
+    private Status status = Status.ACTIVE;
 
     @Column(name = "photo_id")
     private String photoId;

@@ -1,8 +1,7 @@
 package dasturlash.uz.repository.customRepo;
 
-import dasturlash.uz.dto.FilterRequestDTO;
+import dasturlash.uz.request.FilterRequestDTO;
 import dasturlash.uz.entities.ProfileEntity;
-import dasturlash.uz.responseDto.ProfileInfoDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.springframework.data.domain.Page;

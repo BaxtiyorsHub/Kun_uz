@@ -25,7 +25,10 @@ public class ProfileRolesEntity {
     @Column(name = "role", nullable = false)
     private RolesEnum role;
 
+    @Column(name = "profile_id")
+    private Integer profileId;
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id", nullable = false)
+    @JoinColumn(name = "profile_id", nullable = false, updatable = false,insertable = false)
     private ProfileEntity profile;
 }
