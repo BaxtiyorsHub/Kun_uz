@@ -10,4 +10,6 @@ public interface SectionRepository extends CrudRepository<SectionEntity, Integer
     SectionEntity findByIdAndVisibleIsTrue(Integer id);
 
     List<SectionEntity> findByVisibleIsTrue();
+
+    SectionEntity getByIdAndVisibleIsTrue(Integer sectionId);
 }

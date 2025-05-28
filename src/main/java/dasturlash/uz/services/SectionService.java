@@ -62,7 +62,6 @@ public class SectionService {
         return true;
     }
 
-
     public List<SectionDTO> getListAll() {
         List<SectionDTO> allSection = new LinkedList<>();
         sectionRepository.findAll()
@@ -115,5 +114,25 @@ public class SectionService {
             default -> dto.setName(s.getNameUz());
         }
         return dto;
+    }
+
+    public SectionEntity getEntityById(Integer sectionId) {
+       return sectionRepository.findByIdAndVisibleIsTrue(sectionId);
+    }
+
+    public List<SectionResponseDTO> toResponse(List<SectionEntity> section) {
+        List<SectionResponseDTO> response = new LinkedList<>();
+
+        for (SectionEntity sectionEntity : section) {
+            SectionResponseDTO responseDTO = new SectionResponseDTO();
+            responseDTO.setId(sectionEntity.getId());
+            responseDTO.setKey(sectionEntity.getKey());
+            responseDTO.setName(sectionEntity.getNameUz());
+            responseDTO.setNameEn(sectionEntity.getNameEn());
+            responseDTO.setNameRu(sectionEntity.getNameRu());
+
+            response.add(responseDTO);
+        }
+        return response;
     }
 }

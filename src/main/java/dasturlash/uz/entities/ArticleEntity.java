@@ -6,10 +6,8 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
-@Table(name = "articles")
+@Table(name = "article")
 public class ArticleEntity {
 
     @Id
@@ -17,14 +15,14 @@ public class ArticleEntity {
     @Setter(AccessLevel.NONE)
     private Integer id;
 
-    @Column(nullable = false,name = "title")
+    @Column(nullable = false, name = "title")
     private String title;
 
-    @Column(columnDefinition = "TEXT", name = "decription")
+    @Column(columnDefinition = "TEXT", name = "description")
     private String description;
 
     @Lob
-    @Column(columnDefinition = "TEXT",name = "content")
+    @Column(name = "content")
     private String content;
 
     @Column(name = "image_id")

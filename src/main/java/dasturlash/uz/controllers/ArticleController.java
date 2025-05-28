@@ -23,7 +23,7 @@ public class ArticleController {
     }
 
     @GetMapping("/create")
-    public Map<String, Object> getCreateFormData(@RequestParam(defaultValue = "UZ") Lang lang) {
+    public ResponseEntity<Map<String, Object>> getCreateFormData(@RequestParam(defaultValue = "UZ") Lang lang) {
         Map<String, Object> response = new HashMap<>();
         try {
             response.put("categories", articleService.getCategories(lang));
@@ -31,13 +31,12 @@ public class ArticleController {
         } catch (Exception e) {
             response.put("error", e.getMessage());
         }
-        return response;
+        return ResponseEntity.ok(response);
     }
 
 
     @PostMapping("/create")
-    public ResponseEntity<ArticleResponseDTO> createArticle(@Valid
-                                                                @RequestBody ArticleRequestDTO dto) {
+    public ResponseEntity<ArticleResponseDTO> createArticle(@Valid @RequestBody ArticleRequestDTO dto) {
         return ResponseEntity.ok(articleService.create(dto));
     }
 }

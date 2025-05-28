@@ -100,4 +100,24 @@ public class CategoryService {
         }
         return dto;
     }
+
+    public CategoryEntity getEntityById(Integer categoryId) {
+        return categoryRepository.findByIdAndVisibleIsTrue(categoryId);
+    }
+
+    public List<CategoryResponseDTO> toResponse(List<CategoryEntity> category) {
+
+        List<CategoryResponseDTO> response = new LinkedList<>();
+
+        for (CategoryEntity categoryEntity : category) {
+            CategoryResponseDTO responseDTO = new CategoryResponseDTO();
+            responseDTO.setId(categoryEntity.getId());
+            responseDTO.setKey(categoryEntity.getKey());
+            responseDTO.setName(categoryEntity.getNameUz());
+            responseDTO.setNameRu(categoryEntity.getNameRu());
+            responseDTO.setNameEn(categoryEntity.getNameEn());
+            response.add(responseDTO);
+        }
+        return response;
+    }
 }

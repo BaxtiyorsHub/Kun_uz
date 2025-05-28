@@ -6,13 +6,15 @@ GET https://examples.http-client.intellij.net/get
 GET localhost:8080/api/v1/article/create
 
 ### Create article
-POST localhost:8080/api/v1/article/create
+POST http://localhost:8080/api/v1/article/create
 Content-Type: application/json
 
 {
-  "title": "jamshet",
-  "description": "whaaaaa",
-  "content": "asd",
+  "title": "jamshe",
+  "description": "haaaaa",
+  "content": "as",
   "regionId": "1",
-  "categoryList": []
+  "imageId": "549",
+  "categoryList": [1],
+  "sectionList": [1]
 }

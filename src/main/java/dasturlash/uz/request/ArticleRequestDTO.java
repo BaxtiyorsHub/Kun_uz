@@ -14,7 +14,7 @@ public class ArticleRequestDTO {
 
     @NotNull
     private String title;
-    @NotNull
+
     @Lob
     private String description;
     @Lob
@@ -24,8 +24,8 @@ public class ArticleRequestDTO {
     @NotNull
     private String regionId;
     @NotNull
-    private List<CategoryEntity> categoryList;
+    private List<Integer> categoryList;
     @NotNull
-    private List<SectionEntity> sectionList;
+    private List<Integer> sectionList;
 
 }
