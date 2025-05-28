@@ -15,6 +15,7 @@ import java.util.Map;
 
 @Repository
 public class ProfileCustomRepo {
+
     private final EntityManager entityManager;
 
     public ProfileCustomRepo(EntityManager entityManager) {
@@ -26,27 +27,24 @@ public class ProfileCustomRepo {
 
         Map<String, Object> params = new HashMap<>();
 
-        if (dto.getName() != null) {
-            conditionBuilder.append(" and name like :name ");
-            params.put("name", "%" + dto.getName() + "%");
-        }
-        if (dto.getSurname() != null) {
-            conditionBuilder.append(" and surname like :surname");
-            params.put("surname", "%" + dto.getSurname() + "%");
-        }
-        if (dto.getPhone() != null) {
-            conditionBuilder.append(" and phone like :phone ");
-            params.put("phone", "%" + dto.getPhone() + "%");
+        if (dto.getQuery() != null) {
+            conditionBuilder.append(" and lower(name) like :lower(query) or lower(surname) like :lower(query) or phone like :query  ");
+            params.put("name", "%" + dto.getQuery() + "%");
         }
         if (dto.getRole() != null) {
             conditionBuilder.append(" and role = :role ");
             params.put("role", dto.getRole());
         }
-        if (dto.getCreatedDateFrom() != null) {
+        if (dto.getCreatedDateFrom() != null && dto.getCreatedDateTo() != null) {
+            conditionBuilder.append(" and createdDate between :createdDateFrom and :createdDateTo ");
+            params.put("createdDateFrom", dto.getCreatedDateFrom());
+            params.put("createdDateTo", dto.getCreatedDateTo());
+        }
+        else if (dto.getCreatedDateFrom() != null) {
             conditionBuilder.append(" and createdDate >= :createdDateFrom ");
             params.put("createdDateFrom", dto.getCreatedDateFrom());
         }
-        if (dto.getCreatedDateTo() != null) {
+        else if (dto.getCreatedDateTo() != null) {
             conditionBuilder.append(" and createdDate <= :createdDateTo ");
             params.put("createdDateTo", dto.getCreatedDateTo());
         }

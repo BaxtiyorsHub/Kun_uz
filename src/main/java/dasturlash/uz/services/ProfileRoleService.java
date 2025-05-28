@@ -48,9 +48,13 @@ public class ProfileRoleService {
 
     public Boolean deleteRole(Integer id, List<RolesEnum> rolesEnumList) {
         List<RolesEnum> profileRoles = profileRolesRepository.findProfileRole(id);
+        if (profileRoles == null) throw new AppBadExp("Profile not found");
 
-
-
+        for (RolesEnum roleEnum : rolesEnumList) {
+            if (profileRoles.contains(roleEnum)) {
+                profileRolesRepository.deleteProfileRole(id, roleEnum);
+            }
+        }
         return true;
     }
 }

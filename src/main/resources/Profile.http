@@ -3,14 +3,13 @@ POST http://localhost:8080/api/v1/profile/create
 Content-Type: application/json
 
 {
-  "name": "baxti",
-  "surname": "baxti",
-  "phone": "+99890001002",
-  "email": "baxtiyng7@gmail.com",
-  "password": "apple0",
-  "status": "ACTIVE",
-  "photoId": "hots123",
-  "rolesEnumList": ["ADMIN", "MODERATOR"]
+  "name": "Ali",
+  "surname": "Valiyev",
+  "phone": "+998900234587",
+  "email": "ali.valiy@gmail.com",
+  "password": "parol123",
+  "photoId": "abc123photo",
+  "rolesEnumList": ["USER", "ADMIN"]
 }
 
 ### GET profile by ID

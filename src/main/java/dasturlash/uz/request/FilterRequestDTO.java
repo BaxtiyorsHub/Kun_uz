@@ -9,9 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class FilterRequestDTO {
-    private String name;
-    private String surname;
-    private String phone;
+    private String query;
     private RolesEnum role;
     private LocalDateTime createdDateFrom;
     private LocalDateTime createdDateTo;

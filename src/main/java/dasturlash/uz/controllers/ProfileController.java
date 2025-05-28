@@ -26,9 +26,7 @@ public class ProfileController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ProfileResponseDTO> create(@Valid
-                                                     @RequestBody ProfileRequestDTO profile
-    ) {
+    public ResponseEntity<ProfileResponseDTO> create(@Valid @RequestBody ProfileRequestDTO profile) {
         return ResponseEntity.ok(profileService.create(profile));
     }
 
@@ -43,7 +41,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.update(id, profileDTO));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/role/{id}")
     public ResponseEntity<Boolean> deleteRole(@PathVariable Integer id,
                                               @RequestBody List<RolesEnum> rolesEnumList) {
         return ResponseEntity.ok(profileRoleService.deleteRole(id,rolesEnumList));

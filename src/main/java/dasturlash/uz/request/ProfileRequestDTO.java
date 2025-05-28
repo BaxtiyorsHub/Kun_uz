@@ -13,8 +13,6 @@ import java.util.List;
 @Setter
 public class ProfileRequestDTO {
 
-    Integer id;
-
     @NotBlank(message = "Ism bo‘sh bo‘lmasligi kerak")
     private String name;
 

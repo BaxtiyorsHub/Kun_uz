@@ -17,4 +17,10 @@ public interface ProfileRolesRepository extends CrudRepository<ProfileRolesEntit
     @Query("select pr.role from ProfileRolesEntity pr join pr.profile p where p.visible = true and pr.profileId = ?1")
     List<RolesEnum> findProfileRole(Integer id);
 
+    @Transactional
+    @Modifying
+    @Query("delete from ProfileRolesEntity pr where pr.profileId = ?1 and pr.role=?2")
+    void deleteProfileRole(Integer id, RolesEnum role);
+
+
 }
