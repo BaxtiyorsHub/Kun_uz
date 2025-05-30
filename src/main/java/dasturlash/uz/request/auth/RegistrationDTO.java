@@ -1,4 +1,4 @@
-package dasturlash.uz.dto.auth;
+package dasturlash.uz.request.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

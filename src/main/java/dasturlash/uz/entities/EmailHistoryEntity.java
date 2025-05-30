@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @Entity
-@Table(name = "auth_registration_codes")
-public class AuthRegistrationCodes {
+@Table(name = "email_history_entity")
+public class EmailHistoryEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Setter(AccessLevel.NONE)
-    private Integer id;
+    private String id;
 
     @Column(name = "code")
     private String code;

@@ -1,6 +1,6 @@
 package dasturlash.uz.services;
 
-import dasturlash.uz.dto.auth.RegistrationDTO;
+import dasturlash.uz.request.auth.RegistrationDTO;
 import dasturlash.uz.entities.ProfileEntity;
 import dasturlash.uz.enums.RolesEnum;
 import dasturlash.uz.enums.Status;
@@ -52,18 +52,23 @@ public class AuthService {
 
         profileRepository.save(profile);
         // create profile roles
-
-        Random randomCode = new Random();
-        Integer code = randomCode.nextInt(000001,999999);
-
         profileRoleService.createAndUpdate(profile , List.of(RolesEnum.USER));
 
-        emailSenderService.sendSimpleMessage("Registration completion",
-                code.toString(),
-                dto.getUsername());
-        Thread.sleep(60000);
+        emailSenderService.sendRegistrationEmail(dto.getUsername());
 
         return "Tasdiqlash kodi ketdi mazgi qara.";
     }
 
+    public String regEmailVerification(String username, String code) {
+        Optional<ProfileEntity> byId = profileRepository.findByPhoneOrEmailAndVisibleIsTrue(username);
+        if (byId.isEmpty()) throw new AppBadExp("Username not found");
+
+        ProfileEntity profile = byId.get();
+        if (!profile.getStatus().equals(Status.NOT_ACTIVE)) throw new AppBadExp("Username already verified");
+
+
+
+
+        return null;
+    }
 }
