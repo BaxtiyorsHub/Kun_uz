@@ -19,4 +19,7 @@ public interface ArticleRepository extends CrudRepository<ArticleEntity, Integer
 
     @Query("select arc.section from ArticleSectionEntity arc where arc.visible = true and arc.section.visible = true ")
     List<SectionEntity> getSection();
+
+    @Query("from ArticleEntity where id = ?1 and visible =true ")
+    ArticleEntity getById(Integer id);
 }

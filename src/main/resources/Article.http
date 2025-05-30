@@ -18,3 +18,27 @@ Content-Type: application/json
   "categoryList": [1],
   "sectionList": [1]
 }
+
+### Get article
+GET localhost:8080/api/v1/article/1
+
+### update
+PUT localhost:8080/api/v1/article/update/1
+Content-Type: application/json
+
+{
+  "title": "jam",
+  "description": "ha",
+  "content": "as",
+  "regionId": "1",
+  "imageId": "549",
+  "categoryList": [1,4],
+  "sectionList": [1,3]
+}
+
+### delete
+DELETE localhost:8080/api/v1/article/delete/1
+
+### status change
+PUT localhost:8080/api/v1/article/status/1?status=PUBLISHED
+

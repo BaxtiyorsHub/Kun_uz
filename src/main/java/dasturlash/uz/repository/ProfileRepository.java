@@ -17,4 +17,7 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity, Integer
     ProfileEntity findByIdAndVisibleIsTrue(Integer id);
 
     Optional<ProfileEntity> findByPhone(String phone);
+
+    @Query("from ProfileEntity where phone=?1 or email=?1 and visible=true ")
+    Optional<ProfileEntity> findByPhoneOrEmailAndVisibleIsTrue(String username);
 }

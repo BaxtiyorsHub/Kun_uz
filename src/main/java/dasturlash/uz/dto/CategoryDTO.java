@@ -28,7 +28,6 @@ public class CategoryDTO {
     @NotBlank(message = "Key bo‘sh bo‘lmasligi kerak")
     private String key;
 
-    @NotNull(message = "Visible qiymati null bo‘lmasligi kerak")
     private Boolean visible;
 
     private LocalDateTime createdDate; // Optional: server tomonidan belgilanadi

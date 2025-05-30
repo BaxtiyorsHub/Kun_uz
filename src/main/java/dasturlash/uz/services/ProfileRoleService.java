@@ -57,4 +57,10 @@ public class ProfileRoleService {
         }
         return true;
     }
+
+
+    public void deleteRolesByProfileId(Integer profileId) {
+        profileRolesRepository.deleteById(profileId);
+    }
+
 }

@@ -3,11 +3,11 @@ POST http://localhost:8080/api/v1/section/create
 Content-Type: application/json
 
 {
-  "orderNumber": 3,
-  "nameUz": "Bo‘lim 2",
-  "nameRu": "Раздел 2",
-  "nameEn": "Section 2",
-  "key": "section2",
+  "orderNumber": 5,
+  "nameUz": "Bo‘lim 3",
+  "nameRu": "Раздел 3",
+  "nameEn": "Section 3",
+  "key": "section3",
   "visible": true
 }
 

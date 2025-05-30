@@ -1,5 +1,6 @@
 package dasturlash.uz.controllers;
 
+import dasturlash.uz.enums.ArtStatus;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.request.ArticleRequestDTO;
 import dasturlash.uz.responseDto.ArticleResponseDTO;
@@ -34,9 +35,30 @@ public class ArticleController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ArticleResponseDTO> getArticleById(@PathVariable int id) {
+        return ResponseEntity.ok(articleService.getArticle(id));
+    }
 
     @PostMapping("/create")
     public ResponseEntity<ArticleResponseDTO> createArticle(@Valid @RequestBody ArticleRequestDTO dto) {
         return ResponseEntity.ok(articleService.create(dto));
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ArticleResponseDTO> updateArticle(
+            @PathVariable Integer id,
+            @RequestBody ArticleRequestDTO dto) {
+        return ResponseEntity.ok(articleService.update(id,dto));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Boolean> deleteArticle(@PathVariable int id) {
+        return ResponseEntity.ok(articleService.delete(id));
+    }
+
+    @PutMapping("/status/{id}")
+    public ResponseEntity<Boolean> updateArticleStatus(@PathVariable int id, @RequestParam ArtStatus status) {
+        return ResponseEntity.ok(articleService.changeStatus(id,status));
     }
 }
