@@ -20,7 +20,7 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<String> registration(@Valid @RequestBody RegistrationDTO dto) {
+    public ResponseEntity<String> registration(@Valid @RequestBody RegistrationDTO dto) throws InterruptedException {
         return ResponseEntity.ok(authService.registration(dto));
     }
 

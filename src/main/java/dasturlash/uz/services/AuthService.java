@@ -2,13 +2,16 @@ package dasturlash.uz.services;
 
 import dasturlash.uz.dto.auth.RegistrationDTO;
 import dasturlash.uz.entities.ProfileEntity;
+import dasturlash.uz.enums.RolesEnum;
 import dasturlash.uz.enums.Status;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ProfileRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 public class AuthService {
@@ -28,36 +31,39 @@ public class AuthService {
         this.emailSenderService = emailSenderService;
     }
 
-    public String registration(RegistrationDTO dto) {
-        // 1. validation TODO in DTO class
-        // 2.   1213
+    public String registration(RegistrationDTO dto) throws InterruptedException {
         Optional<ProfileEntity> existOptional = profileRepository.findByPhoneOrEmailAndVisibleIsTrue(dto.getUsername());
         if (existOptional.isPresent()) {
             ProfileEntity existsProfile = existOptional.get();
             if (existsProfile.getStatus().equals(Status.NOT_ACTIVE)) {
                 profileRoleService.deleteRolesByProfileId(existsProfile.getId());
-                profileRepository.deleteById(existsProfile.getId()); // delete
+                profileRepository.deleteById(existsProfile.getId());
             } else {
                 throw new AppBadExp("Username already exists");
             }
         }
-        // create profile
+
         ProfileEntity profile = new ProfileEntity();
         profile.setName(dto.getName());
         profile.setSurname(dto.getSurname());
-       // profile.setUsername(dto.getUsername());
+        if (dto.getUsername().contains("@")) profile.setEmail(dto.getUsername());
+        profile.setPhone(dto.getUsername());
         profile.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
-        profile.setVisible(true);
-        profile.setStatus(Status.NOT_ACTIVE);
+
         profileRepository.save(profile);
         // create profile roles
-        //profileRoleService.createAndUpdate(profile.getId(), RolesEnum.USER);
-        emailSenderService.sendSimpleMessage("Registration complete",
-                "Sms code 12345",
-                dto.getUsername());
 
-        // response
-        return "Tastiqlash kodi ketdi mazgi qara.";
+        Random randomCode = new Random();
+        Integer code = randomCode.nextInt(000001,999999);
+
+        profileRoleService.createAndUpdate(profile , List.of(RolesEnum.USER));
+
+        emailSenderService.sendSimpleMessage("Registration completion",
+                code.toString(),
+                dto.getUsername());
+        Thread.sleep(60000);
+
+        return "Tasdiqlash kodi ketdi mazgi qara.";
     }
 
 }

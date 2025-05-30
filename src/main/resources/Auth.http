@@ -1,0 +1,14 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### create profile
+POST localhost:8080/api/v1/auth/registration
+Content-Type: application/json
+
+{
+  "name": "Baxtiyor",
+  "surname": "Yusupov",
+  "username": "yusupovv17@icloud.com",
+  "password": "bb7"
+}

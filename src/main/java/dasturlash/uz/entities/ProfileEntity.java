@@ -43,7 +43,7 @@ public class ProfileEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private Status status = Status.ACTIVE;
+    private Status status = Status.NOT_ACTIVE;
 
     @Column(name = "photo_id")
     private String photoId;
