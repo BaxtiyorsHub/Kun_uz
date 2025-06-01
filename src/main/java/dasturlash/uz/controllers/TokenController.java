@@ -14,7 +14,7 @@ public class TokenController {
 
     @GetMapping({"/generate"})
     public ResponseEntity<String> generateToken() {
-        return ResponseEntity.ok(JwtUtil.encode( "mazgiyev", "ADMIN"));
+        return ResponseEntity.ok(JwtUtil.encode( "baxtiyorking17@gmal.com", "ADMIN"));
     }
 
     @GetMapping({"/parse/{token}"})

@@ -1,6 +1,5 @@
 package dasturlash.uz.jwtUtil;
 
-
 import dasturlash.uz.dto.JwtDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
