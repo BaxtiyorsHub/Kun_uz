@@ -22,4 +22,9 @@ public class EmailHistoryService {
         entity.setToEmail(toAccount);
         codeRepository.save(entity);
     }
+
+    public boolean isSmsValidationCheck(String username, String code) {
+
+        return false;
+    }
 }

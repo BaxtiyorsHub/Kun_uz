@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 public class AuthService {
@@ -20,15 +19,17 @@ public class AuthService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ProfileRoleService profileRoleService;
     private final EmailSenderService emailSenderService;
+    private final EmailHistoryService emailHistoryService;
 
     public AuthService(ProfileRepository profileRepository,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
                        ProfileRoleService profileRoleService,
-                       EmailSenderService emailSenderService) {
+                       EmailSenderService emailSenderService, EmailHistoryService emailHistoryService) {
         this.profileRepository = profileRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.profileRoleService = profileRoleService;
         this.emailSenderService = emailSenderService;
+        this.emailHistoryService = emailHistoryService;
     }
 
     public String registration(RegistrationDTO dto) throws InterruptedException {
@@ -66,9 +67,11 @@ public class AuthService {
         ProfileEntity profile = byId.get();
         if (!profile.getStatus().equals(Status.NOT_ACTIVE)) throw new AppBadExp("Username already verified");
 
-
-
-
-        return null;
+        if (emailHistoryService.isSmsValidationCheck(username,code)) {
+            profile.setStatus(Status.ACTIVE);
+            profileRepository.save(profile);
+            return "Email verification successful";
+        }
+        throw new AppBadExp("Verification code is not completed") ;
     }
 }
