@@ -6,10 +6,14 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CodeRepository extends CrudRepository<EmailHistoryEntity, String> {
 
-    @Query("from EmailHistoryEntity where toEmail=?1")
-    List<EmailHistoryEntity> findByToEmail(String toEmail);
+    /**
+     * @return EmailHistoryEntity
+     */
+    @Query("from EmailHistoryEntity where toEmail=?1 order by createdDate desc limit 1")
+    Optional<EmailHistoryEntity> findByToEmail(String toEmail);
 }

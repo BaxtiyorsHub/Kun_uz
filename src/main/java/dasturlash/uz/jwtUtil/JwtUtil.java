@@ -15,13 +15,11 @@ public class JwtUtil {
 
     private static final String secretKey = "secretKey";
     private static final int expirationTime = 60 * 60 * 1000;
-    private final String tokenPrefix = "Bearer ";
-    private final String headerString = "Authorization";
 
-    public static String encode(String username, String role) {
+    public static String encode(String username, String code) {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("username", username);
-        extraClaims.put("role", role);
+        extraClaims.put("code", code);
 
         return Jwts
                 .builder()

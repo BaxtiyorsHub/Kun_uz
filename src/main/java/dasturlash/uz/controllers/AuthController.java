@@ -1,6 +1,8 @@
 package dasturlash.uz.controllers;
 
+import dasturlash.uz.request.LoginDTO;
 import dasturlash.uz.request.auth.RegistrationDTO;
+import dasturlash.uz.responseDto.LoginResponseDTO;
 import dasturlash.uz.services.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,11 @@ public class AuthController {
     public ResponseEntity<String> registrationVerification(@PathVariable("username") String username,
                                                            @PathVariable("code") String code) {
         return ResponseEntity.ok(authService.regEmailVerification(username,code));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginDTO dto) {
+        return ResponseEntity.ok(authService.login(dto));
     }
 
 }

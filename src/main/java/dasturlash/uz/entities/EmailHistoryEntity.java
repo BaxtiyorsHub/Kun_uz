@@ -29,6 +29,9 @@ public class EmailHistoryEntity {
     @Column(name = "to_email")
     private String toEmail;
 
+    @Column(name = "attempts")
+    private Integer attempts = 0;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private AuthStatus status;
