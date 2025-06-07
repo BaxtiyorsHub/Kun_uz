@@ -6,10 +6,10 @@ import lombok.Getter;
 public class JwtDTO {
 
     private String username;
-    private String role;
+    private String code;
 
-    public JwtDTO(String username, String role) {
+    public JwtDTO(String username, String code) {
         this.username = username;
-        this.role = role;
+        this.code = code;
     }
 }

@@ -23,9 +23,6 @@ public class EmailHistoryEntity {
     @Column(name = "code")
     private String code;
 
-    @Column(name = "from_email")
-    private String fromEmail;
-
     @Column(name = "to_email")
     private String toEmail;
 

@@ -1,5 +1,7 @@
 package dasturlash.uz.services;
 
+import dasturlash.uz.dto.JwtDTO;
+import dasturlash.uz.jwtUtil.JwtUtil;
 import dasturlash.uz.request.LoginDTO;
 import dasturlash.uz.request.auth.RegistrationDTO;
 import dasturlash.uz.entities.ProfileEntity;
@@ -35,7 +37,7 @@ public class AuthService {
         this.emailHistoryService = emailHistoryService;
     }
 
-    public String registration(RegistrationDTO dto) throws InterruptedException {
+    public String registration(RegistrationDTO dto) {
         Optional<ProfileEntity> existOptional = profileRepository.findByPhoneOrEmailAndVisibleIsTrue(dto.getUsername());
         if (existOptional.isPresent()) {
             ProfileEntity existsProfile = existOptional.get();
@@ -58,7 +60,7 @@ public class AuthService {
         // create profile roles
         profileRoleService.createAndUpdate(profile , List.of(RolesEnum.USER));
 
-        emailSenderService.sendRegistrationEmail(dto.getUsername());
+        emailSenderService.sendRegistrationStyledEmail(dto.getUsername());
 
         return "Tasdiqlash kodi ketdi mazgi qara.";
     }

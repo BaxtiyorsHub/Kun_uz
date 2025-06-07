@@ -1,0 +1,12 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### login
+POST https://notify.eskiz.uz/api/auth/login
+Content-Type: application/json
+
+{
+  "email" : "baxtiyorking17@gmail.com",
+  "password" : "Apple1092"
+}

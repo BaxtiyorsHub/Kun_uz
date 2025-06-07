@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JwtUtil {
-
-    private static final String secretKey = "secretKey";
+    // Kamida 256 bitli kalit
+    private static final String secretKey = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
     private static final int expirationTime = 60 * 60 * 1000;
 
     public static String encode(String username, String code) {
@@ -39,11 +39,11 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload();
         String username = (String) claims.get("username");
-        String role = (String) claims.get("role");
-        return new JwtDTO(username, role);
+        String code = (String) claims.get("code");
+        return new JwtDTO(username, code);
     }
 
-    private static SecretKey getSignInKey() {
+    public static SecretKey getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }

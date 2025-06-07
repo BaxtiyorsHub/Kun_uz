@@ -14,7 +14,7 @@ Content-Type: application/json
 }
 
 ### verification
-GET localhost:8080/api/v1/auth/registration/verification/
+GET http://localhost:8080/api/v1/auth/registration/verification/eyJhbGciOiJIUzM4NCJ9.eyJjb2RlIjoiNDEwNDQiLCJ1c2VybmFtZSI6Inl1c3Vwb3Z2MTdAaWNsb3VkLmNvbSIsInN1YiI6Inl1c3Vwb3Z2MTdAaWNsb3VkLmNvbSIsImlhdCI6MTc0ODg3Mzk0MiwiZXhwIjoxNzQ4ODc3NTQyfQ.CYtUyS7Z3jx8MFv_IJVeHhJ6cq2_DCAKNAnR8dESaIjPQkdnyr1ADf9DaHi3duWF
 
 ### login
 POST localhost:8080/api/v1/auth/login
