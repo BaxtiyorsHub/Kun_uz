@@ -8,5 +8,26 @@ Content-Type: application/json
 
 {
   "email" : "baxtiyorking17@gmail.com",
-  "password" : "Apple1092"
+  "password" : "NXGyR3E3WPeO00oOCKukRLujYbWOuTfs8suC2qfG"
+}
+
+### reg with phone number
+POST localhost:8080/api/v1/auth/phoneRegistration
+Content-Type: application/json
+
+{
+  "username": "998997331103",
+  "password": "fishta1",
+  "name": "fari",
+  "surname": "Ysupova"
+}
+
+### send
+POST https://notify.eskiz.uz/api/message/sms/send
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIwNTMxNTAsImlhdCI6MTc0OTQ2MTE1MCwicm9sZSI6InRlc3QiLCJzaWduIjoiNDJjYzdkZDFiOTc4NjJkMWZiNTgxMGE0ZjY5ZGVmYjhjNWU4NjdmZmY3OTI0ZDQ5YjhlMTNiYjE4MjE2ZjE2MCIsInN1YiI6IjExMjY4In0.Yp_cnUZj0CTp88wY6Jk36Ab8WA_KfyzUMz6bsm_uyBw
+
+{
+"mobile_phone": "998900641092",
+"message": "Bu Eskiz dan test"
 }

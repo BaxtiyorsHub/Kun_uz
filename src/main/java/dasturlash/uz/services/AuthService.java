@@ -25,11 +25,15 @@ public class AuthService {
     private final ProfileRoleService profileRoleService;
     private final EmailSenderService emailSenderService;
     private final EmailHistoryService emailHistoryService;
+    private final SmsService smsService;
 
     public AuthService(ProfileRepository profileRepository,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
                        ProfileRoleService profileRoleService,
-                       EmailSenderService emailSenderService, EmailHistoryService emailHistoryService) {
+                       EmailSenderService emailSenderService,
+                       EmailHistoryService emailHistoryService,
+                       SmsService smsService) {
+        this.smsService = smsService;
         this.profileRepository = profileRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.profileRoleService = profileRoleService;
@@ -104,5 +108,12 @@ public class AuthService {
             return responseDTO;
         }
         throw new AppBadExp("Something went wrong");
+    }
+
+    public String sendSmsToPhone(RegistrationDTO dto) {
+        if (dto.getUsername().contains("@")) throw new AppBadExp("Something went wrong");
+        smsService.sendRegistration(dto.getUsername());
+
+        return "Tasdiqlash kodi ketdi mazgi.";
     }
 }

@@ -50,4 +50,8 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(dto));
     }
 
+    @PostMapping("/phoneRegistration")
+    public ResponseEntity<String> phoneRegistration(@Valid @RequestBody RegistrationDTO dto) {
+        return ResponseEntity.ok(authService.sendSmsToPhone(dto));
+    }
 }
