@@ -54,42 +54,14 @@ public class AttachService {
             if (contentType == null) {
                 contentType = "application/octet-stream"; // Fallback content type
             }
-            return ResponseEntity.ok()
-                    .contentType(MediaType.parseMediaType(contentType))
-                    .body(resource);
+            return ResponseEntity.ok().contentType(MediaType.parseMediaType(contentType)).body(resource);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
-
-    private String getYmDString() {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
-        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
-        int day = Calendar.getInstance().get(Calendar.DATE);
-        return year + "/" + month + "/" + day;
-    }
-
-    private String getExtension(String fileName) { // dasd.asdasd.zari.jpg
-        int lastIndex = fileName.lastIndexOf(".");
-        return fileName.substring(lastIndex + 1);
-    }
-
-    private AttachResponseDTO toDTO(AttachEntity entity) {
-        AttachResponseDTO attachDTO = new AttachResponseDTO();
-        attachDTO.setId(entity.getId());
-        attachDTO.setOriginName(entity.getOrigenName());
-        attachDTO.setSize(entity.getSize());
-        attachDTO.setExtension(entity.getExtension());
-        attachDTO.setCreatedData(entity.getCreatedDate());
-//        attachDTO.setUrl(openURL(entity.getId()));
-        return attachDTO;
-    }
-
     public AttachResponseDTO upload(MultipartFile file) {
-        if (file.isEmpty()) {
-            throw new AppBadExp("File not found");
-        }
+        if (file.isEmpty()) throw new AppBadExp("File not found");
 
         try {
             String pathFolder = getYmDString(); // 2025/06/09
@@ -98,9 +70,7 @@ public class AttachService {
 
             // create folder if not exists
             File folder = new File("attaches" + "/" + pathFolder);
-            if (!folder.exists()) {
-                boolean t = folder.mkdirs();
-            }
+            if (!folder.exists()) folder.mkdirs();
 
             // save to system
             byte[] bytes = file.getBytes();
@@ -156,10 +126,33 @@ public class AttachService {
     public String openURL(String fileName) {
         return "attaches" + "/open/" + fileName;
     }
+
     /*public String openURL(String fileName) {
         return "http://localhost:8081" + "/attach/open/" + fileName;
     }*/
 
 
+    private String getYmDString() {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
+        int day = Calendar.getInstance().get(Calendar.DATE);
+        return year + "/" + month + "/" + day;
+    }
+
+    private String getExtension(String fileName) { // dasd.asdasd.zari.jpg
+        int lastIndex = fileName.lastIndexOf(".");
+        return fileName.substring(lastIndex + 1);
+    }
+
+    private AttachResponseDTO toDTO(AttachEntity entity) {
+        AttachResponseDTO attachDTO = new AttachResponseDTO();
+        attachDTO.setId(entity.getId());
+        attachDTO.setOriginName(entity.getOrigenName());
+        attachDTO.setSize(entity.getSize());
+        attachDTO.setExtension(entity.getExtension());
+        attachDTO.setCreatedData(entity.getCreatedDate());
+//        attachDTO.setUrl(openURL(entity.getId()));
+        return attachDTO;
+    }
 }
 

@@ -17,17 +17,17 @@ public class AttachController {
         this.attachService = attachService;
     }
 
-    @PostMapping("/upload")
+   /* @PostMapping("/upload")
     public String upload(@RequestParam("file") MultipartFile file) {
         return attachService.saveToSystem(file);
-    }
+    }*/
 
     @GetMapping("/open/{fileName}")
     public ResponseEntity<Resource> open(@PathVariable String fileName) {
         return attachService.open(fileName);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/upload")
     public ResponseEntity<AttachResponseDTO> create(@RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(attachService.upload(file));
     }
