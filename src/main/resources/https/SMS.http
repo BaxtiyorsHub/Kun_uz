@@ -22,7 +22,7 @@ Content-Type: application/json
   "surname": "Ysupova"
 }
 
-### send
+### send test
 POST https://notify.eskiz.uz/api/message/sms/send
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIwNTMxNTAsImlhdCI6MTc0OTQ2MTE1MCwicm9sZSI6InRlc3QiLCJzaWduIjoiNDJjYzdkZDFiOTc4NjJkMWZiNTgxMGE0ZjY5ZGVmYjhjNWU4NjdmZmY3OTI0ZDQ5YjhlMTNiYjE4MjE2ZjE2MCIsInN1YiI6IjExMjY4In0.Yp_cnUZj0CTp88wY6Jk36Ab8WA_KfyzUMz6bsm_uyBw
