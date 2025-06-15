@@ -12,4 +12,13 @@ Content-Disposition: form-data; name="file"; filename="fari.jpg"
 < C:\Users\user\Downloads\fari.jpg
 
 ### open
-GET localhost:8080/api/v1/attach/open/fari.jpg
+GET localhost:8080/api/v1/attach/open/066396c2-7b07-4093-bb7c-95b8328de236.jpg
+
+### delete file
+DELETE localhost:8080/api/v1/attach/delete/b02cb89b-d267-48f8-911c-05c17190b465.jpg
+
+### download file
+GET localhost:8080/api/v1/attach/download/0b1691f0-a847-4f2b-91a0-61ee27b9e195.jpg
+
+### pagination
+GET localhost:8080/api/v1/attach/pagination

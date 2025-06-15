@@ -4,11 +4,13 @@ import dasturlash.uz.entities.AttachEntity;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.AttachRepository;
 import dasturlash.uz.responseDto.AttachResponseDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,10 +20,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Calendar;
+import java.util.Optional;
 import java.util.UUID;
 
+@Component
 @Service
 public class AttachService {
+
+    @Value("${attachment.url1}")
+    private String url1;
+
+    @Value("${attachment.url2}")
+    private String url2;
 
     private final AttachRepository attachRepository;
 
@@ -69,12 +79,12 @@ public class AttachService {
             String extension = getExtension(file.getOriginalFilename()); // .jpg, .png, .mp4
 
             // create folder if not exists
-            File folder = new File("attaches" + "/" + pathFolder);
+            File folder = new File(url1 + "/" + pathFolder);
             if (!folder.exists()) folder.mkdirs();
 
-            // save to system
+            // save to
             byte[] bytes = file.getBytes();
-            Path path = Paths.get("attaches" + "/" + pathFolder + "/" + key + "." + extension);
+            Path path = Paths.get(url1 + "/" + pathFolder + "/" + key + "." + extension);
             // attaches/ 2025/06/09/dasdasd-dasdasda-asdasda-asdasd.jpg
             Files.write(path, bytes);
 
@@ -95,26 +105,20 @@ public class AttachService {
         return null;
     }
 
-    public AttachEntity getEntity(String id) {
-        return attachRepository.findById(Integer.valueOf(id)).orElseThrow(() -> {
-            throw new AppBadExp("File not found");
-        });
-    }
-
     public ResponseEntity<Resource> open2(String id) { // d5ab71b2-39a8-4ad2-80b3-729c91c932be.jpg
         AttachEntity entity = getEntity(id);
-        Path filePath = Paths.get("attaches" + "/" + entity.getPath() + "/" + entity.getId()).normalize();
+        if (entity.getVisible().equals(false)) throw new AppBadExp("File not found");
+
+        Path filePath = Paths.get(url1 + "/" + entity.getPath() + "/" + entity.getId()).normalize();
         // attaches/2025/06/09/d5ab71b2-39a8-4ad2-80b3-729c91c932be.jpg
-        Resource resource = null;
+        Resource resource;
         try {
             resource = new UrlResource(filePath.toUri());
-            if (!resource.exists()) {
-                throw new RuntimeException("File not found: " + filePath);
-            }
+            if (!resource.exists()) throw new RuntimeException("File not found: " + filePath);
+
             String contentType = Files.probeContentType(filePath);
-            if (contentType == null) {
-                contentType = "application/octet-stream"; // Fallback content type
-            }
+            if (contentType == null) contentType = "application/octet-stream"; // Fallback content typ
+
             return ResponseEntity.ok()
                     .contentType(MediaType.parseMediaType(contentType))
                     .body(resource);
@@ -123,20 +127,70 @@ public class AttachService {
         }
     }
 
-    public String openURL(String fileName) {
-        return "attaches" + "/open/" + fileName;
+    public Boolean deleteFile(String fileId) {
+        if (fileId == null || fileId.isEmpty()) throw new AppBadExp("File not found (null)");
+
+        Optional<AttachEntity> optionalAttach = attachRepository.findById(fileId);
+        if (optionalAttach.isEmpty() || optionalAttach.get().getVisible().equals(false)) throw new AppBadExp("File not found");
+
+        AttachEntity attach = optionalAttach.get();
+        String filePath = attach.getPath();
+        String fileName = attach.getId() + "." + attach.getExtension();
+
+        Path fullPath = Paths.get(url1 + "/" + filePath + "/" + fileName).normalize();
+
+        try {
+            Files.delete(fullPath);
+        } catch (IOException e) {
+            throw new RuntimeException("Faylni o‘chirishda xatolik: " + e.getMessage());
+        }
+
+        attach.setVisible(false);
+        attachRepository.save(attach);
+
+        return true;
+    }
+
+    public Resource downloadFile(String id) {
+        AttachEntity file = attachRepository.findById(id)
+                .orElseThrow(() -> new AppBadExp("File not found"));
+        if (file.getVisible().equals(Boolean.FALSE)) throw new AppBadExp("File not found");
+
+        // Faylning to‘liq yo‘lini yasaymiz: attaches/2025/06/15/UUID.jpg
+        String fullPath = url1 + "/" + file.getPath() + "/" + file.getId();
+        //             attaches   /      2025/6/15      /    askandklandklan
+
+        Path path = Paths.get(fullPath).normalize();
+        //             fullpath + jpg , ...
+        try {
+            Resource resource = new UrlResource(path.toUri());
+
+            if (!resource.exists() || !resource.isReadable()) throw new RuntimeException("File not found or not readable: " + fullPath);
+
+            return resource;
+        } catch (Exception e) {
+            throw new RuntimeException("File yuklab olishda xatolik: " + e.getMessage());
+        }
+    }
+
+    private AttachEntity getEntity(String id) {
+        return attachRepository.findById(id)
+                .orElseThrow(() -> new AppBadExp("File not found"));
     }
 
     /*public String openURL(String fileName) {
-        return "http://localhost:8081" + "/attach/open/" + fileName;
+        return url1 + "/open/" + fileName;
     }*/
 
+    /*public String openURL(String fileName) {
+        return url2 + "/attach/open/" + fileName;
+    }*/
 
     private String getYmDString() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH) + 1;
         int day = Calendar.getInstance().get(Calendar.DATE);
-        return year + "/" + month + "/" + day;
+        return year + "-" + month + "-" + day;
     }
 
     private String getExtension(String fileName) { // dasd.asdasd.zari.jpg
