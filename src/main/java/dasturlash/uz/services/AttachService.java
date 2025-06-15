@@ -7,6 +7,10 @@ import dasturlash.uz.responseDto.AttachResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +23,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Calendar;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @Service
@@ -205,8 +207,28 @@ public class AttachService {
         attachDTO.setSize(entity.getSize());
         attachDTO.setExtension(entity.getExtension());
         attachDTO.setCreatedData(entity.getCreatedDate());
-//        attachDTO.setUrl(openURL(entity.getId()));
+        attachDTO.setUrl(openURL(entity.getId()));
         return attachDTO;
+    }
+
+    public String openURL(String fileName) {
+        return url1 + "/open/" + fileName;
+    }
+
+    public PageImpl<AttachResponseDTO> pagination(Integer page, Integer size) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "createdDate");
+        PageRequest pageRequest = PageRequest.of(page, size, sort);
+        Page<AttachEntity> entitiesFromDb = attachRepository.findAll(pageRequest);
+
+        long totalElements = entitiesFromDb.getTotalElements();
+        List<AttachEntity> results = entitiesFromDb.getContent();
+
+        List<AttachResponseDTO> responseList = new LinkedList<>();
+        for (AttachEntity entity : results) {
+            responseList.add(toDTO(entity));
+        }
+
+        return new PageImpl<>(responseList,pageRequest,totalElements);
     }
 }
 

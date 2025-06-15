@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/attach")
 public class AttachController {
@@ -49,5 +51,8 @@ public class AttachController {
         return ResponseEntity.ok(attachService.deleteFile(fileId));
     }
 
-
+    @GetMapping("/pagination")
+    public ResponseEntity<?> pagination(@RequestParam Integer page, @RequestParam Integer size) {
+        return ResponseEntity.ok(attachService.pagination(page-1, size));
+    }
 }
