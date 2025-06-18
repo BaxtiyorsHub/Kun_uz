@@ -1,6 +1,6 @@
 package dasturlash.uz.controllers;
 
-import dasturlash.uz.enums.ArtStatus;
+import dasturlash.uz.enums.ArticleStatus;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.request.ArticleRequestDTO;
 import dasturlash.uz.responseDto.ArticleResponseDTO;
@@ -58,7 +58,7 @@ public class ArticleController {
     }
 
     @PutMapping("/status/{id}")
-    public ResponseEntity<Boolean> updateArticleStatus(@PathVariable int id, @RequestParam ArtStatus status) {
+    public ResponseEntity<Boolean> updateArticleStatus(@PathVariable int id, @RequestParam ArticleStatus status) {
         return ResponseEntity.ok(articleService.changeStatus(id,status));
     }
 }

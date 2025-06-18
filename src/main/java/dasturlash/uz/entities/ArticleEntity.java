@@ -1,6 +1,6 @@
 package dasturlash.uz.entities;
 
-import dasturlash.uz.enums.ArtStatus;
+import dasturlash.uz.enums.ArticleStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,5 +36,5 @@ public class ArticleEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ArtStatus status = ArtStatus.NOT_PUBLISHED;
+    private ArticleStatus status = ArticleStatus.NOT_PUBLISHED;
 }

@@ -3,7 +3,7 @@ package dasturlash.uz.services;
 import dasturlash.uz.entities.ArticleEntity;
 import dasturlash.uz.entities.CategoryEntity;
 import dasturlash.uz.entities.SectionEntity;
-import dasturlash.uz.enums.ArtStatus;
+import dasturlash.uz.enums.ArticleStatus;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ArticleRepository;
@@ -118,7 +118,7 @@ public class ArticleService {
         return true;
     }
 
-    public Boolean changeStatus(int id, ArtStatus status) {
+    public Boolean changeStatus(int id, ArticleStatus status) {
         ArticleEntity byId = articleRepository.getById(id);
         byId.setStatus(status);
         articleRepository.save(byId);

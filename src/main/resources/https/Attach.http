@@ -7,9 +7,9 @@ POST http://localhost:8080/api/v1/attach/upload
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="fari.jpg"
+Content-Disposition: form-data; name="file"; filename="banan.jpg"
 
-< C:\Users\user\Downloads\fari.jpg
+< C:\Users\user\Downloads\banan.jpg
 
 ### open
 GET localhost:8080/api/v1/attach/open/066396c2-7b07-4093-bb7c-95b8328de236.jpg
