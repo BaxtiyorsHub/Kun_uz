@@ -3,15 +3,12 @@ package dasturlash.uz.entities;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dasturlash.uz.enums.Status;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
 @Getter
 @Setter

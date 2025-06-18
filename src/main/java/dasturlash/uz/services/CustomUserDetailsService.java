@@ -4,7 +4,6 @@ import dasturlash.uz.config.CustomUserDetails;
 import dasturlash.uz.entities.ProfileEntity;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,14 +28,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         ProfileEntity profileEntity = profile.get();
         if (profileEntity.getEmail().equals(username)) {
             return new CustomUserDetails(
-                    profileEntity.getId(),
                     profileEntity.getEmail(),
                     profileEntity.getPassword(),
                     profileEntity.getStatus());
         }
 
         return new CustomUserDetails(
-                profileEntity.getId(),
                 profileEntity.getPhone(),
                 profileEntity.getPassword(),
                 profileEntity.getStatus());

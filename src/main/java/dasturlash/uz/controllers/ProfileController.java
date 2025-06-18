@@ -35,7 +35,7 @@ public class ProfileController {
         return ResponseEntity.ok(profileService.getById(id));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ProfileResponseDTO> update(@PathVariable Integer id,
                                                      @RequestBody ProfileRequestDTO profileDTO) {
         return ResponseEntity.ok(profileService.update(id, profileDTO));

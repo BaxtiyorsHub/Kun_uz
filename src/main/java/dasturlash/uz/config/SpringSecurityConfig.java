@@ -1,5 +1,6 @@
 package dasturlash.uz.config;
 
+import dasturlash.uz.enums.RolesEnum;
 import dasturlash.uz.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,22 +38,60 @@ public class SpringSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        // authorization - Foydalanuvchining tizimdagi huquqlarini tekshirish.
-        // Ya'ni foydalanuvchi murojat qilayotgan API-larni ishlatishga ruxsati bor yoki yo'qligini tekshirishdir.
-        http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
-            authorizationManagerRequestMatcherRegistry
-                    .requestMatchers("/api/v1/attach/**").permitAll()
-                    .requestMatchers("api/v1/auth/**").permitAll()
-                    .requestMatchers("/api/v1/auth/login").permitAll()
-                    .anyRequest()
-                    .authenticated();
-        });
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                // --- AUTHORIZATION ---
+                .authorizeHttpRequests(auth -> auth
 
-        http.httpBasic(Customizer.withDefaults());
+                        // ATTACH
+                        .requestMatchers("/api/v1/attach/delete/**",
+                                "/api/v1/attach/pagination/**")
+                        .hasRole(RolesEnum.ADMIN.name())
+                        .requestMatchers("/api/v1/attach/**").permitAll()
 
-        http.csrf(AbstractHttpConfigurer::disable);
-        http.cors(AbstractHttpConfigurer::disable);
+                        // AUTH
+                        .requestMatchers("/api/v1/auth/**",
+                                "/api/v1/auth/login").permitAll()
+
+                        // PROFILE
+                        .requestMatchers("/api/v1/profile/profilePhoto/**",
+                                "/api/v1/profile/update/**").permitAll()
+                        .requestMatchers("/api/v1/profile/**")
+                        .hasAnyRole(RolesEnum.ADMIN.name(),
+                                RolesEnum.MODERATOR.name(),
+                                RolesEnum.PUBLISHER.name())
+
+                        // REGION
+                        .requestMatchers("/api/v1/region/byLang").permitAll()
+                        .requestMatchers("/api/v1/region/**")
+                        .hasRole(RolesEnum.ADMIN.name())
+
+                        // CATEGORY
+                        .requestMatchers("/api/v1/category/byLang").permitAll()
+                        .requestMatchers("/api/v1/category/**")
+                        .hasRole(RolesEnum.ADMIN.name())
+
+                        // SECTION
+                        .requestMatchers("/api/v1/section/byLang").permitAll()
+                        .requestMatchers("/api/v1/section/**")
+                        .hasRole(RolesEnum.ADMIN.name())
+
+                        // ARTICLE
+                        .requestMatchers("/api/v1/article/status/**")
+                        .hasRole(RolesEnum.PUBLISHER.name())
+                        .requestMatchers("/api/v1/article/**")
+                        .hasAnyRole(RolesEnum.ADMIN.name(),
+                                RolesEnum.MODERATOR.name())
+
+                        // OTHER
+                        .anyRequest().authenticated()
+                )
+                // --- AUTHENTICATION STYLE ---
+                .httpBasic(Customizer.withDefaults());
+        // yoki .formLogin(Customizer.withDefaults());
 
         return http.build();
     }
+
 }
