@@ -61,7 +61,6 @@ public class ArticleEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    @Setter(AccessLevel.NONE)
     private ArticleStatus status = ArticleStatus.PUBLISHED;
 
     @Column(name = "read_time")
@@ -79,7 +78,6 @@ public class ArticleEntity {
     private LocalDateTime publishedDate;
 
     @Column(name = "visible")
-    @Setter(AccessLevel.NONE)
     private Boolean visible = Boolean.TRUE;
 
     //  (Bitta article bir-nechta Category-ga tegishli mumkun)

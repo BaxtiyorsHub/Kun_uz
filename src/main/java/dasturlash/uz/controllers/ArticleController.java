@@ -2,6 +2,7 @@ package dasturlash.uz.controllers;
 
 import dasturlash.uz.enums.ArticleStatus;
 import dasturlash.uz.enums.Lang;
+import dasturlash.uz.request.ArticleRequestDTO;
 import dasturlash.uz.responseDto.ArticleResponseDTO;
 import dasturlash.uz.services.ArticleService;
 import jakarta.validation.Valid;
@@ -40,14 +41,14 @@ public class ArticleController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<dasturlash.uz.responseDto.ArticleResponseDTO> createArticle(@Valid @RequestBody ArticleResponseDTO dto) {
+    public ResponseEntity<ArticleResponseDTO> createArticle(@Valid @RequestBody ArticleRequestDTO dto) {
         return ResponseEntity.ok(articleService.create(dto));
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<dasturlash.uz.responseDto.ArticleResponseDTO> updateArticle(
-            @PathVariable Integer id,
-            @RequestBody ArticleResponseDTO dto) {
+    public ResponseEntity<ArticleResponseDTO> updateArticle(
+            @PathVariable Integer id, @Valid
+            @RequestBody ArticleRequestDTO dto) {
         return ResponseEntity.ok(articleService.update(id,dto));
     }
 

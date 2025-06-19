@@ -1,7 +1,6 @@
 package dasturlash.uz.services;
 
 import dasturlash.uz.dto.CategoryDTO;
-import dasturlash.uz.entities.ArticleEntity;
 import dasturlash.uz.responseDto.CategoryResponseDTO;
 import dasturlash.uz.entities.CategoryEntity;
 import dasturlash.uz.enums.Lang;

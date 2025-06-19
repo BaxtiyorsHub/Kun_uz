@@ -1,6 +1,7 @@
 ### CREATE profile
 POST http://localhost:8080/api/v1/profile/create
 Content-Type: application/json
+Authorization: Bearer 5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437
 
 {
   "name": "baxtiyor",

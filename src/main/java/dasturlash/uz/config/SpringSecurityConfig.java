@@ -1,7 +1,9 @@
 package dasturlash.uz.config;
 
 import dasturlash.uz.enums.RolesEnum;
+import dasturlash.uz.jwtUtil.JwtAuthenticationFilter;
 import dasturlash.uz.services.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -19,11 +21,14 @@ public class SpringSecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JwtAuthenticationFilter jwtTokenFilter;
 
     public SpringSecurityConfig(CustomUserDetailsService customUserDetailsService,
-                                BCryptPasswordEncoder bCryptPasswordEncoder) {
+                                BCryptPasswordEncoder bCryptPasswordEncoder,
+                                JwtAuthenticationFilter jwtTokenFilter) {
         this.customUserDetailsService = customUserDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.jwtTokenFilter = jwtTokenFilter;
     }
 
     @Bean
@@ -94,4 +99,8 @@ public class SpringSecurityConfig {
         return http.build();
     }
 
+    public static final String[] AUTH_WHITELIST = {
+            "/profile/registration",
+            "/profile/authorization",
+    };
 }

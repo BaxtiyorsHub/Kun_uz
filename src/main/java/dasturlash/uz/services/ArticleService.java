@@ -9,9 +9,11 @@ import dasturlash.uz.enums.ArticleStatus;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ArticleRepository;
+import dasturlash.uz.request.ArticleRequestDTO;
 import dasturlash.uz.responseDto.ArticleResponseDTO;
 import dasturlash.uz.responseDto.CategoryResponseDTO;
 import dasturlash.uz.responseDto.SectionResponseDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +44,7 @@ public class ArticleService {
         return sectionService.getListLang(lang);
     }
 
-    public dasturlash.uz.responseDto.ArticleResponseDTO create(ArticleResponseDTO dto) {
+    public ArticleResponseDTO create(ArticleRequestDTO dto) {
         ArticleEntity entity = new ArticleEntity();
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
@@ -69,58 +71,69 @@ public class ArticleService {
         return toDto(entity);
     }
 
-    private dasturlash.uz.responseDto.ArticleResponseDTO toDto(ArticleEntity entity) {
-        dasturlash.uz.responseDto.ArticleResponseDTO dto = new dasturlash.uz.responseDto.ArticleResponseDTO();
-        dto.setId(Integer.valueOf(entity.getId()));
+    private ArticleResponseDTO toDto(ArticleEntity entity) {
+        ArticleResponseDTO dto = new ArticleResponseDTO();
+        dto.setId(entity.getId());
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
         dto.setContent(entity.getContent());
         dto.setImageId(entity.getImageId());
-        dto.setRegionId(String.valueOf(entity.getRegionId()));
+        dto.setRegionId(entity.getRegionId());
+        dto.setModeratorId(entity.getModeratorId());
+        dto.setPublisherId(entity.getPublisherId());
+        dto.setStatus(entity.getStatus());
+        dto.setViewCount(entity.getViewCount());
+        dto.setSharedCount(entity.getSharedCount());
+        dto.setReadTime(entity.getReadTime());
+        dto.setPublishedDate(entity.getPublishedDate());
 
-        List<CategoryEntity> category = articleRepository.getCategory();
-        List<SectionEntity> section = articleRepository.getSection();
-
-        dto.setCategoryList(categoryService.toResponse(category));
-        dto.setSectionList(sectionService.toResponse(section));
+        dto.setCategoryList(categoryService.toResponse(articleRepository.getCategory()));
+        dto.setSectionList(sectionService.toResponse(articleRepository.getSection()));
 
         return dto;
     }
 
-    public dasturlash.uz.responseDto.ArticleResponseDTO update(Integer id, ArticleResponseDTO dto) {
+    @Transactional
+    public ArticleResponseDTO update(Integer id, ArticleRequestDTO dto) {
         ArticleEntity article = articleRepository.findById(id)
-                .orElseThrow(() -> new AppBadExp("Article not found"));
+                .orElseThrow(() -> new AppBadExp("Maqola topilmadi: " + id));
 
-        if (!dto.getTitle().equals(article.getTitle())) article.setTitle(dto.getTitle());
-        if (!dto.getDescription().equals(article.getDescription())) article.setDescription(dto.getDescription());
-        if (!dto.getContent().equals(article.getContent())) article.setContent(dto.getContent());
-        if (!dto.getImageId().equals(article.getImageId())) article.setImageId(dto.getImageId());
-        if (!dto.getRegionId().equals(article.getRegionId())) article.setRegionId(dto.getRegionId());
+        article.setTitle(dto.getTitle());
+        article.setDescription(dto.getDescription());
+        article.setContent(dto.getContent());
+        article.setImageId(dto.getImageId());
+        article.setRegionId(dto.getRegionId());
 
-        articleRepository.save(article);
+        if (dto.getSectionList() != null && !dto.getSectionList().isEmpty())
+            arcSecService.update(id, dto.getSectionList());
 
-        if (!dto.getSectionList().isEmpty()) arcSecService.update(id, dto.getSectionList());
-        if (!dto.getCategoryList().isEmpty()) arcCateService.update(id,dto.getCategoryList());
+        if (dto.getCategoryList() != null && !dto.getCategoryList().isEmpty())
+            arcCateService.update(id, dto.getCategoryList());
 
         return toDto(article);
     }
 
-    public dasturlash.uz.responseDto.ArticleResponseDTO getArticle(int id) {
+
+    public ArticleResponseDTO getArticle(int id) {
         ArticleEntity article = articleRepository.findById(id)
                 .orElseThrow(() -> new AppBadExp("Article not found"));
 
         return toDto(article);
     }
 
+    @Transactional
     public Boolean delete(int id) {
-        ArticleEntity byId = articleRepository.getById(id);
-        byId.setVisible(false);
-        articleRepository.save(byId);
+        ArticleEntity article = articleRepository.findById(id)
+                .orElseThrow(() -> new AppBadExp("Maqola topilmadi: " + id));
+        article.setVisible(false);
+        articleRepository.save(article);
         return true;
     }
 
+    @Transactional
     public Boolean changeStatus(int id, ArticleStatus status) {
-        ArticleEntity byId = articleRepository.getById(id);
+        ArticleEntity byId = articleRepository.findById(id)
+                .orElseThrow(() -> new AppBadExp("Maqola topilmadi: " + id));
         byId.setStatus(status);
         articleRepository.save(byId);
         return true;

@@ -1,8 +1,6 @@
 package dasturlash.uz.responseDto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import dasturlash.uz.dto.CategoryDTO;
-import dasturlash.uz.dto.SectionDTO;
 import dasturlash.uz.enums.ArticleStatus;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +12,7 @@ import java.util.List;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ArticleResponseDTO {
-    private String id;
+    private Integer id;
     private String title;
     private String description;
     private String content;
@@ -27,6 +25,6 @@ public class ArticleResponseDTO {
     private Integer readTime; // in second
     private Integer viewCount; // in second
     private LocalDateTime publishedDate;
-    private List<CategoryDTO> categoryList;
-    private List<SectionDTO> sectionList;
+    private List<CategoryResponseDTO> categoryList;
+    private List<SectionResponseDTO> sectionList;
 }

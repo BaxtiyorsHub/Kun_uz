@@ -1,17 +1,24 @@
 package dasturlash.uz.services;
 
+import dasturlash.uz.config.CustomUserDetails;
+import dasturlash.uz.jwtUtil.JwtUtil;
 import dasturlash.uz.request.FilterRequestDTO;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.customRepo.ProfileCustomRepo;
+import dasturlash.uz.request.LoginDTO;
 import dasturlash.uz.request.ProfileRequestDTO;
 import dasturlash.uz.entities.ProfileEntity;
-import dasturlash.uz.entities.ProfileRolesEntity;
-import dasturlash.uz.enums.RolesEnum;
 import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.repository.ProfileRolesRepository;
+import dasturlash.uz.responseDto.LoginResponseDTO;
 import dasturlash.uz.responseDto.ProfileResponseDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +33,7 @@ public class ProfileService {
     private final ProfileCustomRepo profileCustomRepo;
     private final PasswordEncoder passwordEncoder;
     private final ProfileRoleService profileRoleService;
+    private AuthenticationManager authenticationManager;
 
     public ProfileService(PasswordEncoder passwordEncoder,
                           ProfileRepository profileRepository,
@@ -63,6 +71,23 @@ public class ProfileService {
         if (dto.getRolesEnumList() != null) profileRoleService.createAndUpdate(profile, dto.getRolesEnumList());
 
         return toDTO(profile);
+    }
+
+    public LoginResponseDTO authorization(LoginDTO auth) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword()));
+
+            if (authentication.isAuthenticated()) {
+                CustomUserDetails profile = (CustomUserDetails) authentication.getPrincipal();
+                LoginResponseDTO response = new LoginResponseDTO();
+                response.setUsername(profile.getUsername());
+                response.setJwtToken(JwtUtil.encode(profile.getUsername(),profile.getPassword()));
+                return response;
+            }
+        } catch (BadCredentialsException e) {
+            throw new UsernameNotFoundException("Phone or password wrong");
+        }
+        throw new UsernameNotFoundException("Phone or password wrong");
     }
     // ADMIN uchun
     public ProfileResponseDTO update(Integer id, ProfileRequestDTO profileDTO) {
