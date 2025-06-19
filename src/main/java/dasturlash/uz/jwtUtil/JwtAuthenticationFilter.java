@@ -32,8 +32,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         AntPathMatcher pathMatcher = new AntPathMatcher();
         return Arrays
-                .stream(SpringSecurityConfig.AUTH_WHITELIST)
-                .anyMatch(p -> pathMatcher.match(p.toString(), request.getServletPath()));
+                .stream(SpringSecurityConfig.openApiList)
+                .anyMatch(p -> pathMatcher.match(p, request.getServletPath()));
     }
 
     @Override
@@ -52,7 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
 

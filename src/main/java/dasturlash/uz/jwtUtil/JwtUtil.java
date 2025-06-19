@@ -12,14 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JwtUtil {
-    // Kamida 256 bitli kalit
-    private static final String secretKey = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+
+    private static final String secretKey = "sHeIsVEryBeaTIfulgIrLInMylifewHOilOvEILoVEheRSoMUcH";
     private static final int expirationTime = 60 * 60 * 1000;
 
-    public static String encode(String username, String code) {
+    public static String encode(String username, String password) {
         Map<String, Object> extraClaims = new HashMap<>();
         extraClaims.put("username", username);
-        extraClaims.put("code", code);
+        extraClaims.put("code", password);
 
         return Jwts
                 .builder()
