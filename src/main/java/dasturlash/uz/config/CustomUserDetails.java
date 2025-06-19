@@ -1,17 +1,21 @@
 package dasturlash.uz.config;
 
 import dasturlash.uz.enums.Status;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
 public class CustomUserDetails implements UserDetails {
+    @Getter
+    private final Integer id;
     private final String username;
     private final String password;
     private final Status status;
 
-    public CustomUserDetails(String username, String password, Status status) {
+    public CustomUserDetails(Integer id, String username, String password, Status status) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.status = status;

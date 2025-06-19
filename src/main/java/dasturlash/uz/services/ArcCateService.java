@@ -1,10 +1,10 @@
 package dasturlash.uz.services;
 
+import dasturlash.uz.dto.CategoryDTO;
 import dasturlash.uz.entities.*;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ArcCateRepo;
-import dasturlash.uz.request.ArticleRequestDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,13 +26,13 @@ public class ArcCateService {
         articleCategoryEntity.setCategoryId(categoryEntity.getId());
 //        articleCategoryEntity.setCategory(categoryEntity);
 //        articleCategoryEntity.setArticle(entity);
-        articleCategoryEntity.setArticleId(entity.getId());
+        articleCategoryEntity.setArticleId(Integer.valueOf(entity.getId()));
 
         arcCateRepo.save(articleCategoryEntity);
         return "Chiki puki";
     }
 
-    public void update(Integer articleId, List<Integer> categoryIds) {
+    public void update(Integer articleId, @NotNull List<CategoryDTO> categoryIds) {
 
         List<ArticleCategoryEntity> byId = arcCateRepo.findByArticleId(articleId);
         if (byId.isEmpty()) throw new AppBadExp("Article Section Not Found");
@@ -41,8 +41,8 @@ public class ArcCateService {
 
         byId.forEach(ars -> categoryIds.remove(ars.getCategoryId()));
 
-        for (Integer sectionId : categoryIds) {
-            CategoryEntity entityById = categoryService.getEntityById(sectionId);
+        for (CategoryDTO categoryId : categoryIds) {
+            CategoryEntity entityById = categoryService.getEntityById(categoryId.getId());
             create(entityById, articleEntity);
         }
 

@@ -5,8 +5,8 @@ import lombok.Getter;
 @Getter
 public class JwtDTO {
 
-    private String username;
-    private String code;
+    private final String username;
+    private final String code;
 
     public JwtDTO(String username, String code) {
         this.username = username;

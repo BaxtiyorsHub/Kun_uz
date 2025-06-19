@@ -28,12 +28,14 @@ public class CustomUserDetailsService implements UserDetailsService {
         ProfileEntity profileEntity = profile.get();
         if (profileEntity.getEmail().equals(username)) {
             return new CustomUserDetails(
+                    profileEntity.getId(),
                     profileEntity.getEmail(),
                     profileEntity.getPassword(),
                     profileEntity.getStatus());
         }
 
         return new CustomUserDetails(
+                profileEntity.getId(),
                 profileEntity.getPhone(),
                 profileEntity.getPassword(),
                 profileEntity.getStatus());

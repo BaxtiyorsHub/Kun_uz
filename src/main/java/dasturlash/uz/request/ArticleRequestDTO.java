@@ -1,31 +1,23 @@
 package dasturlash.uz.request;
 
-import dasturlash.uz.entities.CategoryEntity;
-import dasturlash.uz.entities.SectionEntity;
-import jakarta.persistence.Lob;
-import jakarta.validation.constraints.NotNull;
+import dasturlash.uz.dto.CategoryDTO;
+import dasturlash.uz.dto.SectionDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-@Setter
+
 @Getter
+@Setter
 public class ArticleRequestDTO {
-
-    @NotNull
     private String title;
-
-    @Lob
     private String description;
-    @Lob
     private String content;
-
     private String imageId;
-    @NotNull
-    private String regionId;
-    @NotNull
-    private List<Integer> categoryList;
-    @NotNull
-    private List<Integer> sectionList;
-
+    private Integer regionId;
+    private Integer readTime; // in second
+    //    private List<Integer> categoryId;    // [ 1,2,3,4]
+    private List<CategoryDTO> categoryList; // [ {id:1}, {id:2},{id:3},{id:4}]
+    private List<SectionDTO> sectionList; // [ {id:1}, {id:2},{id:3},{id:4}]
 }
+

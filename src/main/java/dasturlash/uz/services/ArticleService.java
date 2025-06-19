@@ -1,5 +1,7 @@
 package dasturlash.uz.services;
 
+import dasturlash.uz.dto.CategoryDTO;
+import dasturlash.uz.dto.SectionDTO;
 import dasturlash.uz.entities.ArticleEntity;
 import dasturlash.uz.entities.CategoryEntity;
 import dasturlash.uz.entities.SectionEntity;
@@ -7,7 +9,6 @@ import dasturlash.uz.enums.ArticleStatus;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ArticleRepository;
-import dasturlash.uz.request.ArticleRequestDTO;
 import dasturlash.uz.responseDto.ArticleResponseDTO;
 import dasturlash.uz.responseDto.CategoryResponseDTO;
 import dasturlash.uz.responseDto.SectionResponseDTO;
@@ -41,7 +42,7 @@ public class ArticleService {
         return sectionService.getListLang(lang);
     }
 
-    public ArticleResponseDTO create(ArticleRequestDTO dto) {
+    public dasturlash.uz.responseDto.ArticleResponseDTO create(ArticleResponseDTO dto) {
         ArticleEntity entity = new ArticleEntity();
         entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
@@ -52,15 +53,15 @@ public class ArticleService {
         articleRepository.save(entity);
 
         if (!dto.getSectionList().isEmpty()) {
-            for (Integer sectionId : dto.getSectionList()) {
-                SectionEntity sectionEntity = sectionService.getEntityById(sectionId);
+            for (SectionDTO sectionId : dto.getSectionList()) {
+                SectionEntity sectionEntity = sectionService.getEntityById(sectionId.getId());
                 arcSecService.create(sectionEntity, entity);
             }
         }
 
         if (!dto.getCategoryList().isEmpty()) {
-            for (Integer categoryId : dto.getSectionList()) {
-                CategoryEntity categoryEntity = categoryService.getEntityById(categoryId);
+            for (CategoryDTO categoryId : dto.getCategoryList()) {
+                CategoryEntity categoryEntity = categoryService.getEntityById(categoryId.getId());
                 arcCateService.create(categoryEntity, entity);
             }
         }
@@ -68,14 +69,14 @@ public class ArticleService {
         return toDto(entity);
     }
 
-    private ArticleResponseDTO toDto(ArticleEntity entity) {
-        ArticleResponseDTO dto = new ArticleResponseDTO();
-        dto.setId(entity.getId());
+    private dasturlash.uz.responseDto.ArticleResponseDTO toDto(ArticleEntity entity) {
+        dasturlash.uz.responseDto.ArticleResponseDTO dto = new dasturlash.uz.responseDto.ArticleResponseDTO();
+        dto.setId(Integer.valueOf(entity.getId()));
         dto.setTitle(entity.getTitle());
         dto.setDescription(entity.getDescription());
         dto.setContent(entity.getContent());
         dto.setImageId(entity.getImageId());
-        dto.setRegionId(entity.getRegionId());
+        dto.setRegionId(String.valueOf(entity.getRegionId()));
 
         List<CategoryEntity> category = articleRepository.getCategory();
         List<SectionEntity> section = articleRepository.getSection();
@@ -86,7 +87,7 @@ public class ArticleService {
         return dto;
     }
 
-    public ArticleResponseDTO update(Integer id, ArticleRequestDTO dto) {
+    public dasturlash.uz.responseDto.ArticleResponseDTO update(Integer id, ArticleResponseDTO dto) {
         ArticleEntity article = articleRepository.findById(id)
                 .orElseThrow(() -> new AppBadExp("Article not found"));
 
@@ -104,7 +105,7 @@ public class ArticleService {
         return toDto(article);
     }
 
-    public ArticleResponseDTO getArticle(int id) {
+    public dasturlash.uz.responseDto.ArticleResponseDTO getArticle(int id) {
         ArticleEntity article = articleRepository.findById(id)
                 .orElseThrow(() -> new AppBadExp("Article not found"));
 

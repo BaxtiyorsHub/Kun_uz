@@ -15,8 +15,13 @@ Content-Type: application/json
   "content": "as",
   "regionId": "1",
   "imageId": "549",
-  "categoryList": [1],
-  "sectionList": [1]
+  "categoryList": [
+    {
+      "id": 1
+    }],
+  "sectionList": [{
+    "id": 1
+  }]
 }
 
 ### Get article
