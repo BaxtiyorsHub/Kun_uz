@@ -22,7 +22,7 @@ public class ArticleResponseDTO {
     private Integer moderatorId;
     private Integer publisherId;
     private ArticleStatus status;
-    private Integer readTime; // in second
+    private Byte readTime; // in second
     private Integer viewCount; // in second
     private LocalDateTime publishedDate;
     private List<CategoryResponseDTO> categoryList;

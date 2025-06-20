@@ -9,11 +9,16 @@ import dasturlash.uz.enums.ArticleStatus;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ArticleRepository;
+import dasturlash.uz.request.ArtReqPagination;
 import dasturlash.uz.request.ArticleRequestDTO;
 import dasturlash.uz.responseDto.ArticleResponseDTO;
 import dasturlash.uz.responseDto.CategoryResponseDTO;
 import dasturlash.uz.responseDto.SectionResponseDTO;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,6 +49,7 @@ public class ArticleService {
         return sectionService.getListLang(lang);
     }
 
+    @Transactional
     public ArticleResponseDTO create(ArticleRequestDTO dto) {
         ArticleEntity entity = new ArticleEntity();
         entity.setTitle(dto.getTitle());
@@ -103,6 +109,8 @@ public class ArticleService {
         article.setContent(dto.getContent());
         article.setImageId(dto.getImageId());
         article.setRegionId(dto.getRegionId());
+        article.setReadTime(dto.getReadTime());
+        article.setPublishedDate(dto.getPublishedDate());
 
         if (dto.getSectionList() != null && !dto.getSectionList().isEmpty())
             arcSecService.update(id, dto.getSectionList());
@@ -126,7 +134,6 @@ public class ArticleService {
         ArticleEntity article = articleRepository.findById(id)
                 .orElseThrow(() -> new AppBadExp("Maqola topilmadi: " + id));
         article.setVisible(false);
-        articleRepository.save(article);
         return true;
     }
 
@@ -135,7 +142,20 @@ public class ArticleService {
         ArticleEntity byId = articleRepository.findById(id)
                 .orElseThrow(() -> new AppBadExp("Maqola topilmadi: " + id));
         byId.setStatus(status);
-        articleRepository.save(byId);
         return true;
     }
+
+    public PageImpl<ArticleResponseDTO> getLastNArticles(int page, int size, ArtReqPagination request) {
+        String className = request.getClassName();
+        int classId = request.getClassId();
+
+        List<?> entities;
+        if (!className.isBlank() && className.equals("SectionEntity")) {
+            entities = articleRepository.getArticleEntitiesBySectionId(classId,request.getLimit());
+        } else if (!className.isBlank() && className.equals("CategoryEntity")) {
+            entities = articleRepository.getArticleEntitiesByCategoryId(classId,request.getLimit());
+        }
+        return null;
+    }
+
 }

@@ -1,4 +1,4 @@
-package dasturlash.uz.services;
+package dasturlash.uz.services.email;
 
 import dasturlash.uz.jwtUtil.JwtUtil;
 import dasturlash.uz.util.RandomUtil;
@@ -79,7 +79,7 @@ public class EmailSenderService {
         emailHistoryService.create(body, smsCode, toAccount);
     }
 
-    public String sendMimeMessage(String subject, String body, String toAccount) {
+    public void sendMimeMessage(String subject, String body, String toAccount) {
         try {
             MimeMessage msg = javaMailSender.createMimeMessage();
             msg.setFrom(fromAccount);
@@ -93,6 +93,5 @@ public class EmailSenderService {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-        return "Mail was send";
     }
 }

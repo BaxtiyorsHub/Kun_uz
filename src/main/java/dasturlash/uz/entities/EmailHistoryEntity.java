@@ -1,6 +1,6 @@
 package dasturlash.uz.entities;
 
-import dasturlash.uz.enums.AuthStatus;
+import dasturlash.uz.enums.EmailAndSMSStatus;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,12 +26,18 @@ public class EmailHistoryEntity {
     @Column(name = "to_email")
     private String toEmail;
 
+    @Column(name = "body",columnDefinition = "TEXT")
+    private String body;
+
     @Column(name = "attempts")
     private Integer attempts = 0;
 
+    @Column(name = "hoursBan")
+    private LocalDateTime hoursBan;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private AuthStatus status;
+    private EmailAndSMSStatus status;
 
     @Column(name = "created_date")
     @CreationTimestamp

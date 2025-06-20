@@ -1,4 +1,4 @@
-package dasturlash.uz.services;
+package dasturlash.uz.services.sms;
 
 import dasturlash.uz.config.MyRestTemplate;
 import dasturlash.uz.request.SmsRequestDTO;

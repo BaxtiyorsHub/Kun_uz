@@ -13,7 +13,7 @@ Content-Type: application/json
   "title": "jamshe",
   "description": "haaaaa",
   "content": "as",
-  "regionId": "1",
+  "regionId": 1,
   "imageId": "549",
   "categoryList": [
     {
@@ -35,10 +35,22 @@ Content-Type: application/json
   "title": "jam",
   "description": "ha",
   "content": "as",
-  "regionId": "1",
+  "regionId": 1,
   "imageId": "549",
-  "categoryList": [1,4],
-  "sectionList": [1,3]
+  "categoryList": [
+    {
+      "id": 1
+    },
+    {
+      "id": 4
+    }],
+  "sectionList": [
+    {
+    "id": 1
+    },
+    {
+      "id": 3
+    }]
 }
 
 ### delete

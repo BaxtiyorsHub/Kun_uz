@@ -2,10 +2,12 @@ package dasturlash.uz.controllers;
 
 import dasturlash.uz.enums.ArticleStatus;
 import dasturlash.uz.enums.Lang;
+import dasturlash.uz.request.ArtReqPagination;
 import dasturlash.uz.request.ArticleRequestDTO;
 import dasturlash.uz.responseDto.ArticleResponseDTO;
 import dasturlash.uz.services.ArticleService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +21,7 @@ public class ArticleController {
 
     private final ArticleService articleService;
 
-    public ArticleController(ArticleService articleService){
+    public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
     }
 
@@ -35,8 +37,8 @@ public class ArticleController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<dasturlash.uz.responseDto.ArticleResponseDTO> getArticleById(@PathVariable int id) {
+    @GetMapping("/get/{id}")
+    public ResponseEntity<ArticleResponseDTO> getArticleById(@PathVariable int id) {
         return ResponseEntity.ok(articleService.getArticle(id));
     }
 
@@ -49,7 +51,7 @@ public class ArticleController {
     public ResponseEntity<ArticleResponseDTO> updateArticle(
             @PathVariable Integer id, @Valid
             @RequestBody ArticleRequestDTO dto) {
-        return ResponseEntity.ok(articleService.update(id,dto));
+        return ResponseEntity.ok(articleService.update(id, dto));
     }
 
     @DeleteMapping("/delete/{id}")
@@ -59,6 +61,16 @@ public class ArticleController {
 
     @PutMapping("/status/{id}")
     public ResponseEntity<Boolean> updateArticleStatus(@PathVariable int id, @RequestParam ArticleStatus status) {
-        return ResponseEntity.ok(articleService.changeStatus(id,status));
+        return ResponseEntity.ok(articleService.changeStatus(id, status));
     }
+
+    @GetMapping("/get/articles")
+    public ResponseEntity<?> getArticlesBySection(
+            @RequestBody ArtReqPagination request,
+            @RequestParam int page,
+            @RequestParam int size) {
+
+        return ResponseEntity.ok(articleService.getLastNArticles(page, size, request));
+    }
+
 }

@@ -64,7 +64,7 @@ public class ArticleEntity {
     private ArticleStatus status = ArticleStatus.PUBLISHED;
 
     @Column(name = "read_time")
-    private Integer readTime; // in second
+    private Byte readTime; // in second
 
     @Column(name = "view_count")
     private Integer viewCount; // in second

@@ -32,9 +32,6 @@ public class AttachService {
     @Value("${attachment.url1}")
     private String url1;
 
-    @Value("${attachment.url2}")
-    private String url2;
-
     private final AttachRepository attachRepository;
 
     public AttachService(AttachRepository attachRepository) {

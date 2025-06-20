@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Setter
@@ -42,4 +43,6 @@ public class ArticleRequestDTO {
 
     /** Maqola bo'limlari (section) ro'yxati */
     private List<SectionDTO> sectionList;
+
+    private LocalDateTime publishedDate;
 }

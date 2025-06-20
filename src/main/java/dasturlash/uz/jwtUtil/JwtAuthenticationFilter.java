@@ -1,3 +1,4 @@
+/*
 package dasturlash.uz.jwtUtil;
 
 import dasturlash.uz.config.SpringSecurityConfig;
@@ -62,3 +63,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
     }
 }
+*/

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProfileService {
@@ -144,13 +145,9 @@ public class ProfileService {
         Page<ProfileEntity> entities = profileRepository.findAll(pageRequest);
 
         Long total = entities.getTotalElements();
-        List<ProfileEntity> result = entities.getContent();
+        List<ProfileResponseDTO> result = entities.getContent().stream().map(this::toDTO).toList();
 
-        List<ProfileResponseDTO> dtos = new LinkedList<>();
-        for (ProfileEntity entity : result) {
-            dtos.add(toDTO(entity));
-        }
-        return new PageImpl<>(dtos, pageRequest, total);
+        return new PageImpl<>(result, pageRequest, total);
     }
     // ADMIN uchun
     public Page<ProfileResponseDTO> filter(Integer page, Integer size, FilterRequestDTO dto) {

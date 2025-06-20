@@ -1,7 +1,5 @@
 package dasturlash.uz.services;
 
-import dasturlash.uz.dto.JwtDTO;
-import dasturlash.uz.jwtUtil.JwtUtil;
 import dasturlash.uz.request.LoginDTO;
 import dasturlash.uz.request.auth.RegistrationDTO;
 import dasturlash.uz.entities.ProfileEntity;
@@ -10,6 +8,10 @@ import dasturlash.uz.enums.Status;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.responseDto.LoginResponseDTO;
+import dasturlash.uz.services.email.EmailHistoryService;
+import dasturlash.uz.services.email.EmailSenderService;
+import dasturlash.uz.services.sms.SmsService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -41,16 +43,15 @@ public class AuthService {
         this.emailHistoryService = emailHistoryService;
     }
 
+    @Transactional
     public String registration(RegistrationDTO dto) {
-        Optional<ProfileEntity> existOptional = profileRepository.findByPhoneOrEmailAndVisibleIsTrue(dto.getUsername());
-        if (existOptional.isPresent()) {
-            ProfileEntity existsProfile = existOptional.get();
-            if (existsProfile.getStatus().equals(Status.NOT_ACTIVE)) {
-                profileRoleService.deleteRolesByProfileId(existsProfile.getId());
-                profileRepository.deleteById(existsProfile.getId());
-            } else {
-                throw new AppBadExp("Username already exists");
-            }
+        ProfileEntity user = findUser(dto.getUsername());
+
+        if (user.getStatus().equals(Status.NOT_ACTIVE)) {
+            profileRoleService.deleteRolesByProfileId(user.getId());
+            profileRepository.deleteById(user.getId());
+        } else {
+            throw new AppBadExp("Username already exists");
         }
 
         ProfileEntity profile = new ProfileEntity();
@@ -62,41 +63,38 @@ public class AuthService {
 
         profileRepository.save(profile);
         // create profile roles
-        profileRoleService.createAndUpdate(profile , List.of(RolesEnum.USER));
+        profileRoleService.createAndUpdate(profile, List.of(RolesEnum.USER));
 
         emailSenderService.sendRegistrationStyledEmail(dto.getUsername());
 
-        return "Tasdiqlash kodi ketdi mazgi qara.";
+        return "Verification code sent check your email";
     }
 
     public String regEmailVerification(String username, String code) {
-        Optional<ProfileEntity> byId = profileRepository.findByPhoneOrEmailAndVisibleIsTrue(username);
-        if (byId.isEmpty()) throw new AppBadExp("Username not found");
+        ProfileEntity profile = findUser(username);
 
-        ProfileEntity profile = byId.get();
         if (!profile.getStatus().equals(Status.NOT_ACTIVE)) throw new AppBadExp("Username already verified");
 
         if (code == null || code.isBlank()) throw new AppBadExp("Verification code is empty");
 
-        if (emailHistoryService.isSmsValidationCheck(username,code)) {
+        if (emailHistoryService.isSmsValidationCheck(username, code)) {
             profile.setStatus(Status.ACTIVE);
             profileRepository.save(profile);
             return "Email verification successful";
         }
-        throw new AppBadExp("Verification code is not completed") ;
+        throw new AppBadExp("Verification code is not completed");
     }
 
     public LoginResponseDTO login(@Valid LoginDTO dto) {
         String username = dto.getUsername();
         String password = dto.getPassword();
 
-        Optional<ProfileEntity> byId = profileRepository.findByPhoneOrEmailAndVisibleIsTrue(username);
-        if (byId.isEmpty()) throw new AppBadExp("Username not found");
+        ProfileEntity profile = findUser(username);
 
-        if (!bCryptPasswordEncoder.matches(password, byId.get().getPassword())) throw new AppBadExp("Password is incorrect");
+        if (!bCryptPasswordEncoder.matches(password, profile.getPassword()))
+            throw new AppBadExp("Password is incorrect");
 
-        if (byId.get().getStatus().equals(Status.ACTIVE) ) {
-            ProfileEntity profile = byId.get();
+        if (profile.getStatus().equals(Status.ACTIVE)) {
             List<RolesEnum> roles = profileRepository.roles(profile.getId());
 
             LoginResponseDTO responseDTO = new LoginResponseDTO();
@@ -115,5 +113,12 @@ public class AuthService {
         smsService.sendRegistration(dto.getUsername());
 
         return "Tasdiqlash kodi ketdi mazgi.";
+    }
+
+    private ProfileEntity findUser(String username) {
+        Optional<ProfileEntity> byId = profileRepository.findByPhoneOrEmailAndVisibleIsTrue(username);
+        if (byId.isEmpty()) throw new AppBadExp("Username not found");
+
+        return byId.get();
     }
 }

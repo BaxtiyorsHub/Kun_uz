@@ -1,3 +1,4 @@
+/*
 package dasturlash.uz.config;
 
 import dasturlash.uz.enums.RolesEnum;
@@ -106,3 +107,4 @@ public class SpringSecurityConfig {
             "/api/v1/category/lang"
     };
 }
+*/

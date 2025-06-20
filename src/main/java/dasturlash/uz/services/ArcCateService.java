@@ -4,6 +4,7 @@ import dasturlash.uz.dto.CategoryDTO;
 import dasturlash.uz.entities.*;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ArcCateRepo;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,7 @@ public class ArcCateService {
         return "Chiki puki";
     }
 
+    @Transactional
     public void update(Integer articleId, @NotNull List<CategoryDTO> categoryIds) {
 
         List<ArticleCategoryEntity> byId = arcCateRepo.findByArticleId(articleId);
