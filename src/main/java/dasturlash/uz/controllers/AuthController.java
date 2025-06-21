@@ -2,7 +2,7 @@ package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.JwtDTO;
 import dasturlash.uz.jwtUtil.JwtUtil;
-import dasturlash.uz.request.LoginDTO;
+import dasturlash.uz.request.auth.LoginRequestDTO;
 import dasturlash.uz.request.auth.RegistrationDTO;
 import dasturlash.uz.responseDto.LoginResponseDTO;
 import dasturlash.uz.services.AuthService;
@@ -45,7 +45,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginDTO dto) {
+    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO dto) {
         return ResponseEntity.ok(authService.login(dto));
     }
 

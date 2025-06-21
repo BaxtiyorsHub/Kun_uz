@@ -1,6 +1,6 @@
 package dasturlash.uz.services;
 
-import dasturlash.uz.request.LoginDTO;
+import dasturlash.uz.request.auth.LoginRequestDTO;
 import dasturlash.uz.request.auth.RegistrationDTO;
 import dasturlash.uz.entities.ProfileEntity;
 import dasturlash.uz.enums.RolesEnum;
@@ -8,6 +8,7 @@ import dasturlash.uz.enums.Status;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.responseDto.LoginResponseDTO;
+import dasturlash.uz.services.connectedServices.ProfileRoleService;
 import dasturlash.uz.services.email.EmailHistoryService;
 import dasturlash.uz.services.email.EmailSenderService;
 import dasturlash.uz.services.sms.SmsHistoryService;
@@ -105,7 +106,7 @@ public class AuthService {
         return "Phone verification successful";
     }
 
-    public LoginResponseDTO login(@Valid LoginDTO dto) {
+    public LoginResponseDTO login(@Valid LoginRequestDTO dto) {
         String username = dto.getUsername();
         String password = dto.getPassword();
 

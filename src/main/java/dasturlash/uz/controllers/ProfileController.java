@@ -4,7 +4,7 @@ import dasturlash.uz.enums.RolesEnum;
 import dasturlash.uz.request.FilterRequestDTO;
 import dasturlash.uz.request.ProfileRequestDTO;
 import dasturlash.uz.responseDto.ProfileResponseDTO;
-import dasturlash.uz.services.ProfileRoleService;
+import dasturlash.uz.services.connectedServices.ProfileRoleService;
 import dasturlash.uz.services.ProfileService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;

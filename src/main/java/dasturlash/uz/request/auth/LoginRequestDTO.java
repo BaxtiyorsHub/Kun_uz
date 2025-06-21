@@ -1,11 +1,11 @@
-package dasturlash.uz.request;
+package dasturlash.uz.request.auth;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-public class LoginDTO {
+public class LoginRequestDTO {
     private String username;
     private String password;
 }

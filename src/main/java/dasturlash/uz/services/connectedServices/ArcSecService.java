@@ -1,4 +1,4 @@
-package dasturlash.uz.services;
+package dasturlash.uz.services.connectedServices;
 
 import dasturlash.uz.dto.SectionDTO;
 import dasturlash.uz.entities.ArticleEntity;
@@ -6,6 +6,7 @@ import dasturlash.uz.entities.ArticleSectionEntity;
 import dasturlash.uz.entities.SectionEntity;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.ArcSecRepo;
+import dasturlash.uz.services.SectionService;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Service;
 

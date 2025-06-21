@@ -14,11 +14,10 @@ import dasturlash.uz.request.ArticleRequestDTO;
 import dasturlash.uz.responseDto.ArticleResponseDTO;
 import dasturlash.uz.responseDto.CategoryResponseDTO;
 import dasturlash.uz.responseDto.SectionResponseDTO;
+import dasturlash.uz.services.connectedServices.ArcCateService;
+import dasturlash.uz.services.connectedServices.ArcSecService;
 import jakarta.transaction.Transactional;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

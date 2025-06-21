@@ -5,13 +5,14 @@ import dasturlash.uz.jwtUtil.JwtUtil;
 import dasturlash.uz.request.FilterRequestDTO;
 import dasturlash.uz.exp.AppBadExp;
 import dasturlash.uz.repository.customRepo.ProfileCustomRepo;
-import dasturlash.uz.request.LoginDTO;
+import dasturlash.uz.request.auth.LoginRequestDTO;
 import dasturlash.uz.request.ProfileRequestDTO;
 import dasturlash.uz.entities.ProfileEntity;
 import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.repository.ProfileRolesRepository;
 import dasturlash.uz.responseDto.LoginResponseDTO;
 import dasturlash.uz.responseDto.ProfileResponseDTO;
+import dasturlash.uz.services.connectedServices.ProfileRoleService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.*;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +26,6 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ProfileService {
@@ -74,7 +74,7 @@ public class ProfileService {
         return toDTO(profile);
     }
 
-    public LoginResponseDTO authorization(LoginDTO auth) {
+    public LoginResponseDTO authorization(LoginRequestDTO auth) {
         try {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(auth.getUsername(), auth.getPassword()));
 

@@ -1,10 +1,8 @@
-/*
 package dasturlash.uz.config;
 
 import dasturlash.uz.enums.RolesEnum;
 import dasturlash.uz.jwtUtil.JwtAuthenticationFilter;
 import dasturlash.uz.services.CustomUserDetailsService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -107,4 +105,3 @@ public class SpringSecurityConfig {
             "/api/v1/category/lang"
     };
 }
-*/
