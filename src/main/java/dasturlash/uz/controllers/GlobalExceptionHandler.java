@@ -1,7 +1,7 @@
 package dasturlash.uz.controllers;
 
-import dasturlash.uz.exp.AppBadExp;
-import dasturlash.uz.exp.NotFoundExp;
+import dasturlash.uz.exceptions.AppBadExp;
+import dasturlash.uz.exceptions.NotFoundExp;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

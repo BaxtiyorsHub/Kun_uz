@@ -1,17 +1,17 @@
 package dasturlash.uz.services;
 
 import dasturlash.uz.config.CustomUserDetails;
-import dasturlash.uz.jwtUtil.JwtUtil;
+import dasturlash.uz.util.JwtUtil;
 import dasturlash.uz.request.FilterRequestDTO;
-import dasturlash.uz.exp.AppBadExp;
+import dasturlash.uz.exceptions.AppBadExp;
 import dasturlash.uz.repository.customRepo.ProfileCustomRepo;
 import dasturlash.uz.request.auth.LoginRequestDTO;
 import dasturlash.uz.request.ProfileRequestDTO;
 import dasturlash.uz.entities.ProfileEntity;
 import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.repository.ProfileRolesRepository;
-import dasturlash.uz.responseDto.LoginResponseDTO;
-import dasturlash.uz.responseDto.ProfileResponseDTO;
+import dasturlash.uz.response.LoginResponseDTO;
+import dasturlash.uz.response.ProfileResponseDTO;
 import dasturlash.uz.services.connectedServices.ProfileRoleService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.*;

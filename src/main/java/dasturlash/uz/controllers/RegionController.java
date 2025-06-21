@@ -1,7 +1,7 @@
 package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.RegionDTO;
-import dasturlash.uz.responseDto.RegionResponseDTO;
+import dasturlash.uz.response.RegionResponseDTO;
 import dasturlash.uz.entities.RegionEntity;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.services.RegionService;

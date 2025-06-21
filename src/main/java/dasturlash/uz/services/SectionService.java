@@ -1,7 +1,7 @@
 package dasturlash.uz.services;
 
 import dasturlash.uz.dto.SectionDTO;
-import dasturlash.uz.responseDto.SectionResponseDTO;
+import dasturlash.uz.response.SectionResponseDTO;
 import dasturlash.uz.entities.SectionEntity;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.repository.SectionRepository;

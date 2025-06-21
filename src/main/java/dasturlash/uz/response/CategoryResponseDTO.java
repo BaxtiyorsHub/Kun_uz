@@ -1,4 +1,4 @@
-package dasturlash.uz.responseDto;
+package dasturlash.uz.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class SectionResponseDTO {
+public class CategoryResponseDTO {
     Integer id;
     String key;
     String name;

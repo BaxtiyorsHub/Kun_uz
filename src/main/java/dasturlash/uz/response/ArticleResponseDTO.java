@@ -1,4 +1,4 @@
-package dasturlash.uz.responseDto;
+package dasturlash.uz.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dasturlash.uz.enums.ArticleStatus;

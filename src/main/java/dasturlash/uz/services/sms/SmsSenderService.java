@@ -1,6 +1,7 @@
 package dasturlash.uz.services.sms;
 
 import dasturlash.uz.config.MyRestTemplate;
+import dasturlash.uz.exceptions.AppBadExp;
 import dasturlash.uz.request.SmsRequestDTO;
 import dasturlash.uz.request.auth.RegistrationDTO;
 import dasturlash.uz.util.RandomUtil;
@@ -14,18 +15,25 @@ public class SmsSenderService {
 
     private final MyRestTemplate template;
     private final SmsHistoryService smsHistoryService;
+    private final SmsTokenService smsTokenService;
 
-    public SmsSenderService(MyRestTemplate template, SmsHistoryService smsHistoryService) {
+    public SmsSenderService(MyRestTemplate template, SmsHistoryService smsHistoryService, SmsTokenService smsTokenService) {
         this.template = template;
         this.smsHistoryService = smsHistoryService;
+        this.smsTokenService = smsTokenService;
     }
 
     public void sendRegistration(RegistrationDTO dto) {
         int smsCode = RandomUtil.getRandomInt5();
-        String body = "<#>Kun.uz sayti. Ro'yxatdan o'tish uchun tasdiqlash kodi : " + smsCode;
-        sendSms(body, dto.getUsername());
-
-        smsHistoryService.create(dto,smsCode);
+        //String body = "<#>Kun.uz sayti. Ro'yxatdan o'tish uchun tasdiqlash kodi : " + smsCode;
+        String body = "Bu Eskiz dan test";
+        try {
+            sendSms(body, dto.getUsername());
+            smsHistoryService.create(dto,smsCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new AppBadExp("Something went wrong");
+        }
     }
 
     private void sendSms(String message, String phone) {
@@ -39,7 +47,7 @@ public class SmsSenderService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
-        headers.setBearerAuth("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIwNTMxNTAsImlhdCI6MTc0OTQ2MTE1MCwicm9sZSI6InRlc3QiLCJzaWduIjoiNDJjYzdkZDFiOTc4NjJkMWZiNTgxMGE0ZjY5ZGVmYjhjNWU4NjdmZmY3OTI0ZDQ5YjhlMTNiYjE4MjE2ZjE2MCIsInN1YiI6IjExMjY4In0.Yp_cnUZj0CTp88wY6Jk36Ab8WA_KfyzUMz6bsm_uyBw");
+        headers.set("Authorization","Bearer " + smsTokenService.getToken());
 
         RequestEntity<SmsRequestDTO> request = RequestEntity
                 .post(url)

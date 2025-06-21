@@ -2,7 +2,7 @@ package dasturlash.uz.services.email;
 
 import dasturlash.uz.entities.EmailHistoryEntity;
 import dasturlash.uz.enums.CodeStatus;
-import dasturlash.uz.exp.AppBadExp;
+import dasturlash.uz.exceptions.AppBadExp;
 import dasturlash.uz.repository.EmailHistoryRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotBlank;

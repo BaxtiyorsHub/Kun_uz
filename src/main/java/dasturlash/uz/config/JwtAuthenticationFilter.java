@@ -1,7 +1,7 @@
-package dasturlash.uz.jwtUtil;
+package dasturlash.uz.config;
 
-import dasturlash.uz.config.SpringSecurityConfig;
 import dasturlash.uz.dto.JwtDTO;
+import dasturlash.uz.util.JwtUtil;
 import dasturlash.uz.services.CustomUserDetailsService;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;

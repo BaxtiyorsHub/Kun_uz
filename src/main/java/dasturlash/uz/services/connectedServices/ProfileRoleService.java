@@ -3,7 +3,7 @@ package dasturlash.uz.services.connectedServices;
 import dasturlash.uz.entities.ProfileEntity;
 import dasturlash.uz.entities.ProfileRolesEntity;
 import dasturlash.uz.enums.RolesEnum;
-import dasturlash.uz.exp.AppBadExp;
+import dasturlash.uz.exceptions.AppBadExp;
 import dasturlash.uz.repository.ProfileRolesRepository;
 import org.springframework.stereotype.Service;
 

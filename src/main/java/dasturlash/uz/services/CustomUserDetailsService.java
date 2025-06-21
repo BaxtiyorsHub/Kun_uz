@@ -3,7 +3,7 @@ package dasturlash.uz.services;
 import dasturlash.uz.config.CustomUserDetails;
 import dasturlash.uz.entities.ProfileEntity;
 import dasturlash.uz.enums.RolesEnum;
-import dasturlash.uz.exp.AppBadExp;
+import dasturlash.uz.exceptions.AppBadExp;
 import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.repository.ProfileRolesRepository;
 import org.springframework.security.core.userdetails.UserDetails;

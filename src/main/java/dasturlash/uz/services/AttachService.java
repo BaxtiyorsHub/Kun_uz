@@ -1,9 +1,9 @@
 package dasturlash.uz.services;
 
 import dasturlash.uz.entities.AttachEntity;
-import dasturlash.uz.exp.AppBadExp;
+import dasturlash.uz.exceptions.AppBadExp;
 import dasturlash.uz.repository.AttachRepository;
-import dasturlash.uz.responseDto.AttachResponseDTO;
+import dasturlash.uz.response.AttachResponseDTO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;

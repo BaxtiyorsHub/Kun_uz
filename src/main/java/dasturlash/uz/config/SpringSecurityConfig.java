@@ -1,7 +1,6 @@
 package dasturlash.uz.config;
 
 import dasturlash.uz.enums.RolesEnum;
-import dasturlash.uz.jwtUtil.JwtAuthenticationFilter;
 import dasturlash.uz.services.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

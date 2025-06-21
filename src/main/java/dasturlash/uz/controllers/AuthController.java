@@ -1,10 +1,10 @@
 package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.JwtDTO;
-import dasturlash.uz.jwtUtil.JwtUtil;
+import dasturlash.uz.util.JwtUtil;
 import dasturlash.uz.request.auth.LoginRequestDTO;
 import dasturlash.uz.request.auth.RegistrationDTO;
-import dasturlash.uz.responseDto.LoginResponseDTO;
+import dasturlash.uz.response.LoginResponseDTO;
 import dasturlash.uz.services.AuthService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.validation.Valid;

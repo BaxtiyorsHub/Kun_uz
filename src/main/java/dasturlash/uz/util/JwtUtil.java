@@ -1,4 +1,4 @@
-package dasturlash.uz.jwtUtil;
+package dasturlash.uz.util;
 
 import dasturlash.uz.dto.JwtDTO;
 import io.jsonwebtoken.Claims;

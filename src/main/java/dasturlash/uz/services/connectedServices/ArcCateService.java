@@ -2,7 +2,7 @@ package dasturlash.uz.services.connectedServices;
 
 import dasturlash.uz.dto.CategoryDTO;
 import dasturlash.uz.entities.*;
-import dasturlash.uz.exp.AppBadExp;
+import dasturlash.uz.exceptions.AppBadExp;
 import dasturlash.uz.repository.ArcCateRepo;
 import dasturlash.uz.services.CategoryService;
 import jakarta.transaction.Transactional;

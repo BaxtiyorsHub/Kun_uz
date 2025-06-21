@@ -1,7 +1,7 @@
 package dasturlash.uz.controllers;
 
 import dasturlash.uz.dto.SectionDTO;
-import dasturlash.uz.responseDto.SectionResponseDTO;
+import dasturlash.uz.response.SectionResponseDTO;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.services.SectionService;
 import jakarta.validation.Valid;

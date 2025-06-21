@@ -4,10 +4,9 @@ import dasturlash.uz.enums.ArticleStatus;
 import dasturlash.uz.enums.Lang;
 import dasturlash.uz.request.ArtReqPagination;
 import dasturlash.uz.request.ArticleRequestDTO;
-import dasturlash.uz.responseDto.ArticleResponseDTO;
+import dasturlash.uz.response.ArticleResponseDTO;
 import dasturlash.uz.services.ArticleService;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

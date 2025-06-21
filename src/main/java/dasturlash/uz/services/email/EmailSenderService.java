@@ -1,6 +1,6 @@
 package dasturlash.uz.services.email;
 
-import dasturlash.uz.jwtUtil.JwtUtil;
+import dasturlash.uz.util.JwtUtil;
 import dasturlash.uz.util.RandomUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

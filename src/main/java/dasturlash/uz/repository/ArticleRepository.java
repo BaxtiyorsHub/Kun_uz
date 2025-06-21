@@ -3,7 +3,6 @@ package dasturlash.uz.repository;
 import dasturlash.uz.entities.ArticleEntity;
 import dasturlash.uz.entities.CategoryEntity;
 import dasturlash.uz.entities.SectionEntity;
-import dasturlash.uz.responseDto.CategoryResponseDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

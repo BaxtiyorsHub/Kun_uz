@@ -2,7 +2,7 @@ package dasturlash.uz.services.sms;
 
 import dasturlash.uz.entities.SmsHistoryEntity;
 import dasturlash.uz.enums.CodeStatus;
-import dasturlash.uz.repository.SmsHistoryRepository;
+import dasturlash.uz.repository.sms.SmsHistoryRepository;
 import dasturlash.uz.request.auth.RegistrationDTO;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
