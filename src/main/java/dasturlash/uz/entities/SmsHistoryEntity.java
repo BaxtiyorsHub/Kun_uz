@@ -9,25 +9,21 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "sms_history_entity")
 @Setter
 @Getter
-@Entity
-@Table(name = "email_history_entity")
-public class EmailHistoryEntity {
-
+public class SmsHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Setter(AccessLevel.NONE)
     private String id;
 
-    @Column(name = "code")
-    private String code;
+    @Column(name = "codes",unique = true)
+    private Integer code;
 
-    @Column(name = "to_email")
-    private String toEmail;
-
-    @Column(name = "body",columnDefinition = "TEXT")
-    private String body;
+    @Column(name = "phones",unique = true)
+    private String toPhone;
 
     @Column(name = "attempts")
     private Integer attempts = 0;
@@ -43,5 +39,6 @@ public class EmailHistoryEntity {
     @CreationTimestamp
     @Setter(AccessLevel.NONE)
     private LocalDateTime createdDate;
+
 
 }

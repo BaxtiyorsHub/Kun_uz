@@ -10,7 +10,8 @@ import dasturlash.uz.repository.ProfileRepository;
 import dasturlash.uz.responseDto.LoginResponseDTO;
 import dasturlash.uz.services.email.EmailHistoryService;
 import dasturlash.uz.services.email.EmailSenderService;
-import dasturlash.uz.services.sms.SmsService;
+import dasturlash.uz.services.sms.SmsHistoryService;
+import dasturlash.uz.services.sms.SmsSenderService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -27,20 +28,22 @@ public class AuthService {
     private final ProfileRoleService profileRoleService;
     private final EmailSenderService emailSenderService;
     private final EmailHistoryService emailHistoryService;
-    private final SmsService smsService;
+    private final SmsSenderService smsSenderService;
+    private final SmsHistoryService smsHistoryService;
 
     public AuthService(ProfileRepository profileRepository,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
                        ProfileRoleService profileRoleService,
                        EmailSenderService emailSenderService,
                        EmailHistoryService emailHistoryService,
-                       SmsService smsService) {
-        this.smsService = smsService;
+                       SmsSenderService smsSenderService, SmsHistoryService smsHistoryService) {
+        this.smsSenderService = smsSenderService;
         this.profileRepository = profileRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.profileRoleService = profileRoleService;
         this.emailSenderService = emailSenderService;
         this.emailHistoryService = emailHistoryService;
+        this.smsHistoryService = smsHistoryService;
     }
 
     @Transactional
@@ -57,32 +60,49 @@ public class AuthService {
         ProfileEntity profile = new ProfileEntity();
         profile.setName(dto.getName());
         profile.setSurname(dto.getSurname());
-        if (dto.getUsername().contains("@")) profile.setEmail(dto.getUsername());
-        profile.setPhone(dto.getUsername());
         profile.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
-
+        if (dto.getUsername().contains("@")) {
+            profile.setEmail(dto.getUsername());
+            emailSenderService.sendRegistrationStyledEmail(dto.getUsername());
+        } else if (isValidPhone(dto.getUsername())) {
+            profile.setPhone(dto.getUsername());
+            smsSenderService.sendRegistration(dto);
+        }
         profileRepository.save(profile);
-        // create profile roles
-        profileRoleService.createAndUpdate(profile, List.of(RolesEnum.USER));
 
-        emailSenderService.sendRegistrationStyledEmail(dto.getUsername());
+        profileRoleService.createAndUpdate(profile, List.of(RolesEnum.USER));
 
         return "Verification code sent check your email";
     }
 
-    public String regEmailVerification(String username, String code) {
-        ProfileEntity profile = findUser(username);
+    @Transactional
+    public String emailVerification(String email, String code) {
+        ProfileEntity profile = findUser(email);
 
-        if (!profile.getStatus().equals(Status.NOT_ACTIVE)) throw new AppBadExp("Username already verified");
-
+        if (profile.getStatus().equals(Status.ACTIVE)) throw new AppBadExp("Username already verified");
         if (code == null || code.isBlank()) throw new AppBadExp("Verification code is empty");
 
-        if (emailHistoryService.isSmsValidationCheck(username, code)) {
+        if (emailHistoryService.isSmsValidationCheck(email, code)) {
             profile.setStatus(Status.ACTIVE);
             profileRepository.save(profile);
-            return "Email verification successful";
+            emailHistoryService.changeCodeStatus(email);
         }
-        throw new AppBadExp("Verification code is not completed");
+        return "Email verification successful";
+    }
+
+    @Transactional
+    public String phoneVerification(String phone, String code) {
+        ProfileEntity profile = findUser(phone);
+
+        if (profile.getStatus().equals(Status.ACTIVE)) throw new AppBadExp("Username already verified");
+        if (code == null || code.isBlank()) throw new AppBadExp("Verification code is empty");
+
+        if (emailHistoryService.isSmsValidationCheck(phone, code)) {
+            profile.setStatus(Status.ACTIVE);
+            profileRepository.save(profile);
+            smsHistoryService.changeStatus(phone);
+        }
+        return "Phone verification successful";
     }
 
     public LoginResponseDTO login(@Valid LoginDTO dto) {
@@ -110,9 +130,9 @@ public class AuthService {
 
     public String sendSmsToPhone(RegistrationDTO dto) {
         if (dto.getUsername().contains("@")) throw new AppBadExp("Something went wrong");
-        smsService.sendRegistration(dto.getUsername());
+        smsSenderService.sendRegistration(dto);
 
-        return "Tasdiqlash kodi ketdi mazgi.";
+        return "Verification code sent check your messages";
     }
 
     private ProfileEntity findUser(String username) {
@@ -120,5 +140,9 @@ public class AuthService {
         if (byId.isEmpty()) throw new AppBadExp("Username not found");
 
         return byId.get();
+    }
+
+    public static boolean isValidPhone(String phone) {
+        return phone.matches("^(\\+998|998)?[-\\s]?\\(?\\d{2}\\)?[-\\s]?\\d{3}[-\\s]?\\d{2}[-\\s]?\\d{2}$");
     }
 }

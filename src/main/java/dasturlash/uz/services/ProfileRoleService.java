@@ -22,6 +22,11 @@ public class ProfileRoleService {
         this.profileRolesRepository = profileRolesRepository;
     }
 
+    /**
+     * @param profile
+     * @param rolesEnumList
+     * @return true or false create and update method
+     */
     public Boolean createAndUpdate(ProfileEntity profile, List<RolesEnum> rolesEnumList) {
         List<RolesEnum> profileRoles = profileRolesRepository.findProfileRole(profile.getId());
         List<RolesEnum> needToAddRole = List.of();
@@ -61,5 +66,4 @@ public class ProfileRoleService {
     public void deleteRolesByProfileId(Integer profileId) {
         profileRolesRepository.deleteById(profileId);
     }
-
 }

@@ -23,24 +23,24 @@ public class AuthController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<String> registration(@Valid @RequestBody RegistrationDTO dto) throws InterruptedException {
+    public ResponseEntity<String> registration(@Valid @RequestBody RegistrationDTO dto) {
         return ResponseEntity.ok(authService.registration(dto));
     }
 
-    @GetMapping("/registration/verification/{token}")
+    @GetMapping("/registration/verification/email/{token}")
     public ResponseEntity<String> verifyRegistration(@PathVariable("token") String token) {
-        JwtDTO jwtDTO = null;
+        JwtDTO jwtDTO;
         try {
             jwtDTO = JwtUtil.decode(token);
-            String username = jwtDTO.getUsername();
+            String email = jwtDTO.getUsername();
             String code = jwtDTO.getCode();
 
-            return ResponseEntity.ok(authService.regEmailVerification(username, code));
+            return ResponseEntity.ok(authService.emailVerification(email, code));
 
         } catch (ExpiredJwtException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token muddati tugagan.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token expiration date is expired");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Token noto‘g‘ri.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something went wrong");
         }
     }
 
@@ -49,8 +49,13 @@ public class AuthController {
         return ResponseEntity.ok(authService.login(dto));
     }
 
-    @PostMapping("/phoneRegistration")
+    @PostMapping("/registration/phone")
     public ResponseEntity<String> phoneRegistration(@Valid @RequestBody RegistrationDTO dto) {
         return ResponseEntity.ok(authService.sendSmsToPhone(dto));
+    }
+
+    @GetMapping("/registration/verification/phone")
+    public ResponseEntity<String> phoneVerification(@Valid @RequestBody RegistrationDTO dto) {
+        return ResponseEntity.ok(authService.phoneVerification(dto.getUsername(), dto.getPassword()));
     }
 }

@@ -1,5 +1,5 @@
 package dasturlash.uz.enums;
 
-public enum EmailAndSMSStatus {
+public enum CodeStatus {
     USED, NOT_USED
 }

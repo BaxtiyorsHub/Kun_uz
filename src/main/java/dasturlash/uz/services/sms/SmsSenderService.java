@@ -2,28 +2,33 @@ package dasturlash.uz.services.sms;
 
 import dasturlash.uz.config.MyRestTemplate;
 import dasturlash.uz.request.SmsRequestDTO;
+import dasturlash.uz.request.auth.RegistrationDTO;
 import dasturlash.uz.util.RandomUtil;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SmsService {
+public class SmsSenderService {
 
     private final MyRestTemplate template;
+    private final SmsHistoryService smsHistoryService;
 
-    public SmsService(MyRestTemplate template) {
+    public SmsSenderService(MyRestTemplate template, SmsHistoryService smsHistoryService) {
         this.template = template;
+        this.smsHistoryService = smsHistoryService;
     }
 
-    public void sendRegistration(String phone) {
+    public void sendRegistration(RegistrationDTO dto) {
         int smsCode = RandomUtil.getRandomInt5();
         String body = "<#>Kun.uz sayti. Ro'yxatdan o'tish uchun tasdiqlash kodi : " + smsCode;
-        sendSms(body, phone);
+        sendSms(body, dto.getUsername());
+
+        smsHistoryService.create(dto,smsCode);
     }
 
     private void sendSms(String message, String phone) {
-
         String formattedPhone = formatPhoneNumber(phone);
 
         SmsRequestDTO body = new SmsRequestDTO();
@@ -56,7 +61,7 @@ public class SmsService {
         } else if (phone.length() == 12 && phone.startsWith("998")) {
             return phone;
         } else {
-            throw new IllegalArgumentException("Telefon raqam noto‘g‘ri formatda: " + phone);
+            throw new IllegalArgumentException("Phone number is not valid: " + phone);
         }
     }
 }

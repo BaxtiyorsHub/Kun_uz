@@ -17,7 +17,7 @@ public class EmailSenderService {
     @Value("${spring.mail.username}")
     private String fromAccount;
     private final JavaMailSender javaMailSender;
-    private EmailHistoryService emailHistoryService;
+    private final EmailHistoryService emailHistoryService;
 
     public EmailSenderService(EmailHistoryService emailHistoryService, JavaMailSender javaMailSender) {
         this.emailHistoryService = emailHistoryService;
