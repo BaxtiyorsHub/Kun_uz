@@ -1,0 +1,41 @@
+### Create section
+POST localhost:8081/api/v1/section/admin
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "orderNumber": 421221,
+  "nameUz": "Aso2s21i2y 41",
+  "nameRu": "Осно221в2ной 41",
+  "nameEn": "Mai2n122 41",
+  "sectionKey": "ma2122in41"
+}
+
+
+### Update section
+PUT localhost:8081/api/v1/section/admin/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsInN1YiI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsImlhdCI6MTc1MDQzNTY5MCwiZXhwIjoxNzUwNTIyMDkwfQ.zf5xdxKQNVMV4u1VKgi7oADDRUfBNYI9ZhStsIzyUg7cU2w53Sm2bzeXPmpt1JqgX_RIqcUni8MrhqJt9q8pHA
+
+{
+  "orderNumber": 1,
+  "nameUz": "Asosiy 11",
+  "nameRu": "Основной 11",
+  "nameEn": "Main 11",
+  "sectionKey": "main1"
+}
+
+
+### Delete category
+DELETE localhost:8081/api/v1/section/admin/3
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsInN1YiI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsImlhdCI6MTc1MDQzNTY5MCwiZXhwIjoxNzUwNTIyMDkwfQ.zf5xdxKQNVMV4u1VKgi7oADDRUfBNYI9ZhStsIzyUg7cU2w53Sm2bzeXPmpt1JqgX_RIqcUni8MrhqJt9q8pHA
+
+
+### Get region list
+GET localhost:8081/api/v1/section/admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsInN1YiI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsImlhdCI6MTc1MDQzNTY5MCwiZXhwIjoxNzUwNTIyMDkwfQ.zf5xdxKQNVMV4u1VKgi7oADDRUfBNYI9ZhStsIzyUg7cU2w53Sm2bzeXPmpt1JqgX_RIqcUni8MrhqJt9q8pHA
+
+
+### Get section by lang
+GET localhost:8081/api/v1/section/lang
+Accept-Language: EN

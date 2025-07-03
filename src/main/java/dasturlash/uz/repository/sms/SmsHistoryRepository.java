@@ -1,14 +1,26 @@
 package dasturlash.uz.repository.sms;
 
-import dasturlash.uz.entities.SmsHistoryEntity;
+import dasturlash.uz.entity.sms.SmsHistoryEntity;
+import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-@Repository
-public interface SmsHistoryRepository extends CrudRepository<SmsHistoryEntity, Integer> {
-    /**
-     * @param toPhone
-     * @return SmsHistoryEntity
-     */
-    SmsHistoryEntity findByToPhone(String toPhone);
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+
+public interface SmsHistoryRepository extends CrudRepository<SmsHistoryEntity, String>, PagingAndSortingRepository<SmsHistoryEntity, String> {
+    Optional<SmsHistoryEntity> findTopByPhoneNumberOrderByCreatedDateDesc(String phoneNumber);
+
+    @Transactional
+    @Modifying
+    @Query("update SmsHistoryEntity set attemptCount = attemptCount + 1 where id = ?1")
+    void increaseAttempt(String id);
+
+    List<SmsHistoryEntity> findByPhoneNumber(String phoneNumber);
+
+    List<SmsHistoryEntity> findByCreatedDateBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
+
 }

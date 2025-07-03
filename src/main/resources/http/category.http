@@ -1,0 +1,39 @@
+### Create category
+POST localhost:8081/api/v1/category/admin
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "orderNumber": 111117,
+  "nameUz": "Iqtis11od11iyot 71",
+  "nameRu": "Эконо1м11и1ка 71",
+  "nameEn": "Econo11m11ics 71",
+  "categoryKey": "i1q1ti11sodiyot71"
+}
+
+
+### Update category
+PUT localhost:8081/api/v1/category/admin/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsInN1YiI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsImlhdCI6MTc1MDQzNTY5MCwiZXhwIjoxNzUwNTIyMDkwfQ.zf5xdxKQNVMV4u1VKgi7oADDRUfBNYI9ZhStsIzyUg7cU2w53Sm2bzeXPmpt1JqgX_RIqcUni8MrhqJt9q8pHA
+
+{
+  "orderNumber": 1,
+  "nameUz": "Iqtisodiyot11",
+  "nameRu": "Экономика11",
+  "nameEn": "Economics11",
+  "categoryKey": "iqtisodiyot11"
+}
+
+
+### Delete category
+DELETE localhost:8081/api/v1/category/admin/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsInN1YiI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsImlhdCI6MTc1MDQzNTY5MCwiZXhwIjoxNzUwNTIyMDkwfQ.zf5xdxKQNVMV4u1VKgi7oADDRUfBNYI9ZhStsIzyUg7cU2w53Sm2bzeXPmpt1JqgX_RIqcUni8MrhqJt9q8pHA
+
+### Get category list
+GET localhost:8081/api/v1/category/admin
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjpbIlJPTEVfVVNFUiJdLCJ1c2VybmFtZSI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsInN1YiI6ImJheHRpeW9ya2luZzE3QGdtYWlsLmNvbSIsImlhdCI6MTc1MDQzNTY5MCwiZXhwIjoxNzUwNTIyMDkwfQ.zf5xdxKQNVMV4u1VKgi7oADDRUfBNYI9ZhStsIzyUg7cU2w53Sm2bzeXPmpt1JqgX_RIqcUni8MrhqJt9q8pHA
+
+### Get by lang
+GET localhost:8081/api/v1/category/lang
+Accept-Language: EN

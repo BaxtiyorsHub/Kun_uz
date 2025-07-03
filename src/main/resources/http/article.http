@@ -1,0 +1,82 @@
+### Registration using Email
+POST localhost:8081/api/v1/article/moderator/create
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "title": "Article S5-C1",
+  "titleRu": "aadadadadaad",
+  "titleEn": "Adadadadadadad",
+  "description": "Description for article 5",
+  "descriptionRu": "aadaddadaddadsd",
+  "descriptionEn": "asdaadasdsdaasd",
+  "content": "Full content for article 5",
+  "contentRu": "acadadadadadad",
+  "contentEn": "sadadadadadadads",
+  "regionId": 1,
+  "readTime": 70,
+  "categoryList": [
+    {
+      "id": 1
+    }
+  ],
+  "sectionList": [
+    {
+      "id": 1
+    }
+  ]
+}
+
+### Get n articles by section id
+POST localhost:8081/api/v1/article/admin/get/articles?page=2&size=2
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "n": 2,
+  "sectionId": 5,
+  "status": "NOT_PUBLISHED"
+}
+
+### Get n articles by category id
+POST localhost:8081/api/v1/article/admin/get/articles?page=2&size=2
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "n": 2,
+  "categoryId": 5,
+  "status": "NOT_PUBLISHED"
+}
+
+### Get articles by region id
+GET localhost:8081/api/v1/article/admin/get/1/articles?page=1&size=10
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+### get 12 articles
+GET localhost:8081/api/v1/article/lastest/articles?lang=EN&page=0&size=12
+Authorization: Bearer {{jwt}}
+
+### get article view
+GET localhost:8081/api/v1/article/view/{{id}}
+Authorization: Bearer {{jwt}}
+
+### get article share
+GET localhost:8081/api/v1/article/share/{{id}}
+Authorization: Bearer {{jwt}}
+
+### get most view article
+GET localhost:8081/api/v1/article/most/view/articles/?language=RU&{id}
+Authorization: Bearer {{jwt}}
+
+### get most view section
+GET localhost:8081/api/v1/article/most/view/section/articles?language=UZ&{id}&sectionId=1
+Authorization: Bearer {{jwt}}
+
+### get article filter
+GET localhost:8081/api/v1/article/search/articles?page=1&size5
+Authorization: Bearer {{jwt}}
+
+### filter for moderator
+GET localhost:8081/api/v1/article/moderator/filter/articles

@@ -1,5 +1,7 @@
 package dasturlash.uz.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -9,26 +11,27 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CategoryDTO {
 
-    private Integer id; // Optional: faqat response uchun
+    private Integer id;
 
-    @NotNull(message = "Order ID bo‘sh bo‘lmasligi kerak")
-    private Integer orderId;
+    @NotNull(message = "OrderNumber required")
+    @Min(value = 1, message = "OrderNumber have to higher than 0")
+    private Integer orderNumber;
 
-    @NotBlank(message = "NameUz bo‘sh bo‘lmasligi kerak")
+    @NotBlank(message = "NameUz required")
     private String nameUz;
 
-    @NotBlank(message = "NameRu bo‘sh bo‘lmasligi kerak")
+    @NotBlank(message = "NameRu required")
     private String nameRu;
 
-    @NotBlank(message = "NameEn bo‘sh bo‘lmasligi kerak")
+    @NotBlank(message = "NameEn required")
     private String nameEn;
 
-    @NotBlank(message = "Key bo‘sh bo‘lmasligi kerak")
-    private String key;
+    @NotBlank(message = "CategoryKey required")
+    private String categoryKey;
 
-    private Boolean visible;
-
-    private LocalDateTime createdDate; // Optional: server tomonidan belgilanadi
+    private LocalDateTime createdDate;
+    private String name;
 }

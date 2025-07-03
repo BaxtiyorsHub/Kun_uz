@@ -11,5 +11,4 @@ public class SpringSecurityUtil {
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
         return user.getId();
     }
-
 }

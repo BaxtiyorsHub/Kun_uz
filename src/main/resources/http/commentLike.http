@@ -1,0 +1,11 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### like
+POST localhost:8081/api/v1/comment_like/like-comment?commentId=8146d6ea-579e-4ba2-aac9-9c1004ad8ccc&profileId=2
+Authorization: Bearer {{jwt}}
+
+### dislike
+POST localhost:8081/api/v1/comment_like/dislike-comment?commentId=8146d6ea-579e-4ba2-aac9-9c1004ad8ccc&profileId=2
+Authorization: Bearer {{jwt}}

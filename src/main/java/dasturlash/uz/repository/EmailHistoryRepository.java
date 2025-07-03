@@ -1,18 +1,23 @@
 package dasturlash.uz.repository;
 
-import dasturlash.uz.entities.EmailHistoryEntity;
+import dasturlash.uz.entity.EmailHistoryEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
-@Repository
-public interface EmailHistoryRepository extends CrudRepository<EmailHistoryEntity, String> {
+public interface EmailHistoryRepository extends CrudRepository<EmailHistoryEntity, String>, PagingAndSortingRepository<EmailHistoryEntity, String> {
 
-    /**
-     * @return EmailHistoryEntity
-     */
-    @Query("from EmailHistoryEntity where toEmail=?1 order by createdDate desc limit 1")
-    Optional<EmailHistoryEntity> findByToEmail(String toEmail);
+
+    Optional<EmailHistoryEntity> findTopByToAccountOrderByCreatedDateDesc(String account);
+
+    @Query("from EmailHistoryEntity where toAccount = ?1 order by createdDate desc limit 1")
+    Optional<EmailHistoryEntity> findLastByAccount(String account);
+
+    List<EmailHistoryEntity> findByToAccount(String email);
+
+    List<EmailHistoryEntity> findByCreatedDateBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
 }

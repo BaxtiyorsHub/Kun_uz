@@ -1,0 +1,45 @@
+### Registration using Email
+POST localhost:8081/api/v1/auth/registration
+Content-Type: application/json
+
+{
+  "name": "Baxtiyor",
+  "surname": "Yusupov",
+  "username": "baxtiyorking17@gmail.com",
+  "password": "12345"
+}
+
+### Email registration confirm
+GET http://localhost:8081/api/v1/auth/registration/email/verification
+
+### Registration using sms
+POST localhost:8081/api/v1/auth/registration
+Content-Type: application/json
+
+{
+  "name": "Afaandi",
+  "surname": "Toshamatov",
+  "username": "+998900641092",
+  "password": "12345"
+}
+
+
+### Registration using sms
+PUT localhost:8081/api/v1/auth/registration/sms/verification
+Content-Type: application/json
+
+{
+  "phoneNumber": "+998910171231",
+  "code": "28867"
+}
+
+
+### Login
+POST localhost:8081/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "username": "baxtiyorking17@gmail.com",
+  "password": "12345"
+}
+> {% client.global.set("jwt", response.body.jwt); %}

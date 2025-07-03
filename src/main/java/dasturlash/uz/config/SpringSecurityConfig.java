@@ -1,7 +1,6 @@
 package dasturlash.uz.config;
 
-import dasturlash.uz.enums.RolesEnum;
-import dasturlash.uz.services.CustomUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,18 +16,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig {
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    private final CustomUserDetailsService customUserDetailsService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final JwtAuthenticationFilter jwtTokenFilter;
-
-    public SpringSecurityConfig(CustomUserDetailsService customUserDetailsService,
-                                BCryptPasswordEncoder bCryptPasswordEncoder,
-                                JwtAuthenticationFilter jwtTokenFilter) {
-        this.customUserDetailsService = customUserDetailsService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.jwtTokenFilter = jwtTokenFilter;
-    }
+    public static String[] openApiList = {"/attach/**",
+            "/api/v1/auth/**",
+            "/api/v1/attach/upload",
+            "/api/v1/attach/open/**",
+            "/api/v1/attach/download/**",
+            "/api/v1/category/lang",
+            "/api/v1/region/lang",
+    };
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -42,65 +44,36 @@ public class SpringSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
-                // --- AUTHORIZATION ---
-                .authorizeHttpRequests(auth -> auth
+        // authorization - Foydalanuvchining tizimdagi huquqlarini tekshirish.
+        // Ya'ni foydalanuvchi murojat qilayotgan API-larni ishlatishga ruxsati bor yoki yo'qligini tekshirishdir.
+        http.authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
+            authorizationManagerRequestMatcherRegistry
+                    .requestMatchers(openApiList).permitAll()
+                    .requestMatchers("/api/v1/category/admin", "/api/v1/category/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/region/admin", "/api/v1/region/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/profile/admin", "/api/v1/profile/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/section/admin", "/api/v1/section/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/article/admin", "/api/v1/article/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/article/moderator/", "/api/v1/article/moderator/**").hasRole("MODERATOR")
+                    .requestMatchers("/api/v1/article/publisher/", "/api/v1/article/publisher/**").hasRole("PUBLISHER")
+                    .requestMatchers("/api/v1/email-history/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/sms-history/**").hasRole("ADMIN")
+                    .requestMatchers("api/v1/article/lastest/articles/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/comment/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/api/v1/comment_like/**").permitAll()
+                    .requestMatchers("/api/v1/comment/**").permitAll()
+                    .requestMatchers("/api/v1/like/**").permitAll()
+                    .anyRequest()
+                    .authenticated();
+        }).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-                        // ATTACH
-                        .requestMatchers("/api/v1/attach/delete/**",
-                                "/api/v1/attach/pagination/**")
-                        .hasRole(RolesEnum.ADMIN.name())
-                        .requestMatchers("/api/v1/attach/**").permitAll()
+        http.httpBasic(Customizer.withDefaults()); // httpBasic-dan foydanalish uchun u enable qilindi (ishlatmoqchi ekanligimiz yozildi) (yoqib qo'yild).
 
-                        // AUTH
-                        .requestMatchers("/api/v1/auth/**",
-                                "/api/v1/auth/login").permitAll()
-
-                        // PROFILE
-                        .requestMatchers("/api/v1/profile/profilePhoto/**",
-                                "/api/v1/profile/update/**").permitAll()
-                        .requestMatchers("/api/v1/profile/**")
-                        .hasAnyRole(RolesEnum.ADMIN.name(),
-                                RolesEnum.MODERATOR.name(),
-                                RolesEnum.PUBLISHER.name())
-
-                        // REGION
-                        .requestMatchers("/api/v1/region/byLang").permitAll()
-                        .requestMatchers("/api/v1/region/**")
-                        .hasRole(RolesEnum.ADMIN.name())
-
-                        // CATEGORY
-                        .requestMatchers("/api/v1/category/byLang").permitAll()
-                        .requestMatchers("/api/v1/category/**")
-                        .hasRole(RolesEnum.ADMIN.name())
-
-                        // SECTION
-                        .requestMatchers("/api/v1/section/byLang").permitAll()
-                        .requestMatchers("/api/v1/section/**")
-                        .hasRole(RolesEnum.ADMIN.name())
-
-                        // ARTICLE
-                        .requestMatchers("/api/v1/article/status/**")
-                        .hasRole(RolesEnum.PUBLISHER.name())
-                        .requestMatchers("/api/v1/article/**")
-                        .hasAnyRole(RolesEnum.ADMIN.name(),
-                                RolesEnum.MODERATOR.name())
-
-                        // OTHER
-                        .anyRequest().authenticated()
-                ).addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                // --- AUTHENTICATION STYLE ---
-                .httpBasic(Customizer.withDefaults());
-        // yoki .formLogin(Customizer.withDefaults());
+        http.csrf(AbstractHttpConfigurer::disable); // csrf o'chirilgan
+        http.cors(AbstractHttpConfigurer::disable); // cors o'chirilgan
 
         return http.build();
     }
 
-    public static String[] openApiList = {"/attach/**",
-            "/api/v1/auth/**",
-            "/api/v1/auth/login",
-            "/api/v1/category/lang"
-    };
+
 }

@@ -1,0 +1,7 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### like article
+POST localhost:8081/api/v1/like/article/911d1481-b827-4499-ab95-1c9f4cabf4fb
+Authorization: Bearer {{jwt}}

@@ -1,8 +1,7 @@
 package dasturlash.uz.config;
 
-import dasturlash.uz.enums.RolesEnum;
-import dasturlash.uz.enums.Status;
-import lombok.Getter;
+import dasturlash.uz.enums.ProfileRoleEnum;
+import dasturlash.uz.enums.ProfileStatus;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,28 +10,30 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-@Getter
 public class CustomUserDetails implements UserDetails {
+    private Integer id;
+    private String username;
+    private String password;
+    private ProfileStatus status;
+    private List<SimpleGrantedAuthority> roles;
 
-    private final Integer id;
-    private final String username;
-    private final String password;
-    private final Status status;
-    private final List<SimpleGrantedAuthority> roleList;
-
-    public CustomUserDetails(Integer id, String username, String password, Status status, List<RolesEnum> roleList) {
+    public CustomUserDetails(Integer id, String username, String password, ProfileStatus status,
+                             List<ProfileRoleEnum> roleList) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.status = status;
 
-        this.roleList = roleList.stream()
-                .map(role -> new SimpleGrantedAuthority(role.name()))
-                .toList();
+        List<SimpleGrantedAuthority> roles = new LinkedList<>();
+        roleList.forEach(role -> {
+            roles.add(new SimpleGrantedAuthority(role.name()));
+        });
+        this.roles = roles;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roleList;
+        return roles;
     }
 
     @Override
@@ -52,7 +53,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return status.equals(Status.ACTIVE);
+        return status.equals(ProfileStatus.ACTIVE);
     }
 
     @Override
@@ -63,5 +64,9 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Integer getId() {
+        return id;
     }
 }

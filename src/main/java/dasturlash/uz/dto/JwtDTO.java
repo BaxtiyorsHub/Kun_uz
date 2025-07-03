@@ -1,15 +1,24 @@
 package dasturlash.uz.dto;
 
+import dasturlash.uz.enums.ProfileRoleEnum;
 import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
 
 @Getter
+@Setter
 public class JwtDTO {
+    private String username;
+    private List<ProfileRoleEnum> roles;
+    private Integer code;
 
-    private final String username;
-    private final String code;
+    public JwtDTO() {
 
-    public JwtDTO(String username, String code) {
+    }
+
+    public JwtDTO(String username, List<ProfileRoleEnum> roles) {
         this.username = username;
-        this.code = code;
+        this.roles = roles;
     }
 }

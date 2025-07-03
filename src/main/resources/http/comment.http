@@ -1,0 +1,29 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+### comment
+POST localhost:8081/api/v1/comment/259e86c0-a936-425c-80d6-ecb4829a7e31
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "content": "salom",
+  "profileId": 2,
+  "commentId": "73b6d4c4-0b86-45b2-8dd9-4bc117817102"
+}
+
+### update
+PUT localhost:8081/api/v1/comment/259e86c0-a936-425c-80d6-ecb4829a7e31
+Content-Type: application/json
+Authorization: Bearer {{jwt}}
+
+{
+  "content": "Assalomu alaykum",
+  "profileId": 2,
+  "commentId": "73b6d4c4-0b86-45b2-8dd9-4bc117817102"
+}
+
+### delete
+DELETE localhost:8081/api/v1/comment/delete/2/259e86c0-a936-425c-80d6-ecb4829a7e31/73b6d4c4-0b86-45b2-8dd9-4bc117817102
+Authorization: Bearer {{jwt}}

@@ -1,40 +1,36 @@
 package dasturlash.uz.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SectionDTO {
-
     private Integer id;
 
-    @NotNull(message = "Order number bo‘sh bo‘lmasligi kerak")
+    @NotNull(message = "OrderNumber required")
+    @Min(value = 1, message = "OrderNumber have to higher than 0")
     private Integer orderNumber;
 
-    @NotBlank(message = "NameUz bo‘sh bo‘lmasligi kerak")
+    @NotBlank(message = "NameUz required")
     private String nameUz;
 
-    @NotBlank(message = "NameRu bo‘sh bo‘lmasligi kerak")
+    @NotBlank(message = "NameRu required")
     private String nameRu;
 
-    @NotBlank(message = "NameEn bo‘sh bo‘lmasligi kerak")
+    @NotBlank(message = "NameEn required")
     private String nameEn;
 
-    @NotBlank(message = "Key bo‘sh bo‘lmasligi kerak")
-    private String key;
-
-    @NotNull(message = "Visible maydoni null bo‘lishi mumkin emas")
-    private Boolean visible;
+    @NotBlank(message = "SectionKey required")
+    private String sectionKey;
 
     private LocalDateTime createdDate;
-
-    private String imageId;
+    private String name;
 }
