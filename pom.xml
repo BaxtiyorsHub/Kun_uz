@@ -5,14 +5,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.5</version>
+        <version>3.5.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>dasturlash.uz</groupId>
-    <artifactId>kun_uz</artifactId>
+    <artifactId>CopyKunUz</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>kun_uz</name>
-    <description>Demo project for Spring Boot</description>
+    <name>CopyKunUz</name>
+    <description>CopyKunUz</description>
     <url/>
     <licenses>
         <license/>
@@ -28,6 +28,8 @@
     </scm>
     <properties>
         <java.version>24</java.version>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
     </properties>
     <dependencies>
         <dependency>
@@ -86,6 +88,19 @@
             <version>0.12.6</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- flyway-ning asosiy kutubxonasi-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
+        <!-- Ishlatilayotgan database-ga qarab tanlanadi-->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
